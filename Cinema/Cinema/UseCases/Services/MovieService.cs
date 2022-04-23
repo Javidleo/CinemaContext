@@ -14,12 +14,9 @@ namespace UseCases.Services
         private readonly MovieValidator _movieValidator;
         private readonly MovieActoresValidator _actoresValidator;
         private readonly IMovieRepository _movieRepository;
-        private readonly IAdminRepository _adminRepository;
-
-        public MovieService(IMovieRepository movieRepository, IAdminRepository adminRepository)
+        public MovieService(IMovieRepository movieRepository)
         {
             _movieRepository = movieRepository;
-            _adminRepository = adminRepository;
             _movieValidator = new MovieValidator();
             _actoresValidator = new MovieActoresValidator();
         }
@@ -28,7 +25,6 @@ namespace UseCases.Services
             , DateTime publishDate, string baseMaleActorName, string baseFemaleActorName, string supportedMaleActorName, string supportedFemaleActorName)
         {
             MovieActores actores = MovieActores.Create(baseMaleActorName, baseFemaleActorName, supportedMaleActorName, supportedFemaleActorName);
-
 
             Movie movie = Movie.Create(adminGuid, adminFullName, name, director, producer, publishDate, publishDate.ToPersianDate(), actores);
 

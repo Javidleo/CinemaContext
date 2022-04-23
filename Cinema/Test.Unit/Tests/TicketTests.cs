@@ -28,10 +28,7 @@ namespace Test.Unit.Tests
             _customerFakeRepository = new CustomerFakeRepository();
             _chairMockRepository = new Mock<IChairRepository>();
             _ticketService = new TicketService(_ticketFakeRepository, _chairMockRepository.Object, _customerFakeRepository); ;
-        }
-
-        public void MockSetup()
-        {
+            // mock setup
             _salon = new SalonBuilder().Build();
             _cinema = new CinemaBuilder().Build();
             _mockChair = new Mock<Chair>();
@@ -46,11 +43,12 @@ namespace Test.Unit.Tests
 
             _chairMockRepository.Setup(i => i.DoesExist(_mockChair.Object.Id)).Returns(true);
             _chairMockRepository.Setup(i => i.FindWithParents(_mockChair.Object.Id)).Returns(_mockChair.Object);
+
         }
+
         [Fact]
         public void CreateTicket_CheckForWorkingWell()
         {
-            MockSetup();
             _customerFakeRepository.SetExistingId(_ticket.CustomerId.Value);
 
             var result = _ticketService.Create(_ticket.CustomerId, _ticket.ChairId, _ticket.Price);
@@ -61,7 +59,6 @@ namespace Test.Unit.Tests
         [Fact]
         public void CreateTicket_CheckForExistingCustomerId_SendForCreatingIfExist()
         {
-            MockSetup();
             _customerFakeRepository.SetExistingId(_ticket.CustomerId.Value);
 
             var result = _ticketService.Create(_ticket.CustomerId, _ticket.ChairId, _ticket.Price);
@@ -75,8 +72,6 @@ namespace Test.Unit.Tests
         // if you pass null for custoemrId then system assumes you are a guest
         public void CreateTicket_CheckForInvalidCustomerId_PassNullAndCreateAsGuess()
         {
-            MockSetup();
-
             var result = _ticketService.Create(_ticket.CustomerId, _ticket.ChairId, _ticket.Price);
 
             var excpected = _ticketFakeRepository.storage.First();
@@ -87,7 +82,6 @@ namespace Test.Unit.Tests
         [Fact]
         public void CreateTicket_CheckForExistingChairWithIncludingParents_ThrowNotFoundException_NothingFound()
         {
-            MockSetup();
             _mockChair.Setup(i => i.Salon);
             _chairMockRepository.Setup(i => i.FindWithParents(_ticket.ChairId)).Returns(_mockChair.Object);
 
@@ -99,7 +93,6 @@ namespace Test.Unit.Tests
         [Fact]
         public void CreateTicket_CheckForExistingChairWithIncludingParents_ReturnExcpectedValue()
         {
-            MockSetup();
             _mockChair.Setup(i => i.Salon).Returns(_salon);
 
             _chairMockRepository.Setup(i => i.FindWithParents(_ticket.ChairId)).Returns(_mockChair.Object);
@@ -112,7 +105,6 @@ namespace Test.Unit.Tests
         [Fact]
         public void CreateTicket_CheckForDisabledChair_ThrowsNotAcceptableException()
         {
-            MockSetup();
             _mockChair.Setup(i => i.Salon).Returns(_salon);
             _mockChair.Object.Disable();
             _chairMockRepository.Setup(i => i.FindWithParents(_ticket.ChairId)).Returns(_mockChair.Object);

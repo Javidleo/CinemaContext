@@ -1,4 +1,5 @@
 ﻿using DomainModel;
+using Test.Unit.builders;
 using UseCases.RepositoryContract;
 
 namespace Test.Unit.TestDoubles
@@ -18,6 +19,11 @@ namespace Test.Unit.TestDoubles
         {
             if (Id == _existingId) return true;
             return false;
+        }
+
+        public Salon FindWithParents(int salonId)
+        {
+            return new SalonBuilder().Build();
         }
     }
 }

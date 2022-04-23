@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace Application.Middleware
+namespace WebApplicationMVC.Middleware
 {
     public class ErrorDetail
     {

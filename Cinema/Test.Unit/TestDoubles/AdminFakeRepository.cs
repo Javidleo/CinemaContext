@@ -7,8 +7,8 @@ namespace Test.Unit.TestDoubles
     internal class AdminFakeRepository : IAdminRepository
     {
         private int _existingid;
-        private string _existingEmail;
-        private string _existingUserName;
+        private string? _existingEmail;
+        private string? _existingUserName;
 
         public void SetExistingId(int id) => _existingid = id;
         public void SetExistingEmail(string email) => _existingEmail = email;

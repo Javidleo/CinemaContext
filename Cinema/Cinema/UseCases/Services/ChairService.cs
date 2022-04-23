@@ -21,7 +21,15 @@ namespace UseCases.Services
             if (!_salonRepostiory.DoesExist(salonId))
                 throw new NotFoundException("salon not found");
 
+            int chairCount = row * count;
+
             List<Chair> chairs = new List<Chair>();
+
+            for (int i = 0; i < chairCount; i++)
+            {
+                
+            }
+
             _chairRepostiory.Add(chairs);
             return Task.CompletedTask;
         }

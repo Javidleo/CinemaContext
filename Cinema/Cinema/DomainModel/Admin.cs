@@ -26,13 +26,13 @@ namespace DomainModel
 
         Admin(int cinemaid, string name, string family, string nationalCode, string email,string userName, string password)
         {
-            this.CinemaId = cinemaid;
-            this.Name = name;
-            this.Family = family;
-            this.NationalCode = nationalCode;
-            this.Email = email;
-            this.UserName = userName;
-            this.Password = password;
+            CinemaId = cinemaid;
+            Name = name;
+            Family = family;
+            NationalCode = nationalCode;
+            Email = email;
+            UserName = userName;
+            Password = password;
         }
 
         public static Admin Create(int cinemaId, string name, string family, string nationalCode, string email,string userName, string password)

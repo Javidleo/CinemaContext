@@ -6,7 +6,7 @@ namespace Test.Unit.TestDoubles
     internal class CustomerFakeRepository : ICustomerRepository
     {
         private int _existingId;
-        private string _existingEmail;
+        private string? _existingEmail;
 
         public void SetExistingId(int id)=> _existingId = id;
         public void SetExistingEmail(string email) => _existingEmail = email;

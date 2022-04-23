@@ -1,10 +1,6 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Threading.Tasks;
-using UseCases.Exceptions;
+﻿using UseCases.Exceptions;
 
-namespace Application.Middleware
+namespace WebApplicationMVC.Middleware
 {
     public class ErrorHandlingMiddleware
     {
@@ -19,9 +15,9 @@ namespace Application.Middleware
             {
                 await _next(httpContext);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                await HandleExceptionAsync(httpContext, ex);
 
             }
         }

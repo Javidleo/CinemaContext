@@ -16,12 +16,10 @@ namespace Test.Unit.Tests
         private readonly IMovieService _movieService;
         private readonly MovieValidator _validator;
         private readonly MovieFakeRepository _movieFakeRepository;
-        private readonly AdminFakeRepository _adminFakeRepository;
         public MovieTests()
         {
             _movieFakeRepository = new MovieFakeRepository();
-            _adminFakeRepository = new AdminFakeRepository();
-            _movieService = new MovieService(_movieFakeRepository, _adminFakeRepository);
+            _movieService = new MovieService(_movieFakeRepository);
             _validator = new MovieValidator();
         }
 

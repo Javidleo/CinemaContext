@@ -15,9 +15,9 @@ namespace DomainModel
 
         public Guid AdminGuid { get; private set; }
 
-        public DateTime CreationDate { get; private set; }
+        public DateTime PremiereDate { get; private set; }
 
-        public string CreationDatePersian { get; private set; }
+        public string PremiereDatePersian { get; private set; }
 
         public virtual Movie Movie { get; private set; }
 
@@ -31,8 +31,8 @@ namespace DomainModel
             SalonId = salonId;
             SansId = sansId;
             AdminGuid = adminGuid;
-            CreationDate = DateTime.Now.Date;
-            CreationDatePersian = DateTime.Now.ToPersianDate();
+            PremiereDate = DateTime.Now.Date;
+            PremiereDatePersian = DateTime.Now.ToPersianDate();
         }
 
         public static MovieSansSalon Create(int movieId, int salonId, int sansId, Guid adminGuid)

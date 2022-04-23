@@ -88,5 +88,11 @@ namespace Test.Unit.Tests
             void result() => _service.Create(obj.MovieId, obj.SalonId, obj.SansId, obj.AdminGuid);
             Assert.Throws<NotAcceptableException>(result);
         }
+
+        [Fact]
+        public void GetMovieByCity_CheckForExcpectedValue()
+        {
+            var result = _service.GetMovieByCity(movieId: 1, cityId: 1);
+        }
     }
 }
