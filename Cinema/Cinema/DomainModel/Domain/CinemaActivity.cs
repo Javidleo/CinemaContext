@@ -27,27 +27,27 @@ namespace DomainModel.Domain
 
         public virtual Cinema Cinema { get; private set; }
 
-        private CinemaActivity(int cinemaId, DateTime startDate, string persianStartDate, DateTime? endDate, string persianEndDate,
-                                string description, Guid adminGuid, string adminFullName)
+        private CinemaActivity(int cinemaId, DateTime startDate, string persianStartDate
+                                ,string description, Guid adminGuid, string adminFullName)
         {
             CinemaId = cinemaId;
             StartDate = startDate;
             StartDatePersian = persianStartDate;
-            EndDate = endDate;
-            EndDatePersian = persianEndDate;
+            EndDate = null;
+            EndDatePersian = null;
             Description = description;
             AdminGuid = adminGuid;
             AdminFullName = adminFullName;
         }
 
-        public static CinemaActivity Create(int cinemaId, DateTime startDate, string persianStartDate, DateTime? endDate, string persianEndDate,
+        public static CinemaActivity Create(int cinemaId, DateTime startDate, string persianStartDate,
                                 string description, Guid adminGuid, string adminFullName)
-        => new(cinemaId, startDate, persianStartDate, endDate, persianEndDate, description, adminGuid, adminFullName);
+        => new(cinemaId, startDate, persianStartDate, description, adminGuid, adminFullName);
 
-        public void DeActivate()
+        public void Activate()
         {
             EndDate = DateTime.Now.Date;
-            EndDatePersian = DateTime.Now.Date.ToPersianDate();
+            EndDatePersian = DateTime.Now.ToPersianDate();
         }
     }
 }

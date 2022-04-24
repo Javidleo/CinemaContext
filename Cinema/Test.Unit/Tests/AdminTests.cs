@@ -206,6 +206,5 @@ namespace Test.Unit.Tests
             void result() => _adminService.Find(admin.UserName, admin.Password);
             Assert.Throws<NotFoundException>(result);
         }
-
     }
 }

@@ -12,6 +12,17 @@ Scenario: Define Movie on website
 	When I define a new movie on the website with specific 
 	Then everybody should be able to see that on the website
 
-Scenario: Define Salons for Cinema
-	When I Defined a new Salon for a Cinema
-	Then I Should can Let People See movies inside it 
+Scenario: Deactive Cinema for Fixing
+	And I FindOut a Big Problem in Cinema has happend 
+	When I DeActive Cinema For Fixing 
+	Then No Admin Should Not Can Add Movies for this Cinema
+
+Scenario: Deactive Salon for Fixing 
+	And I know there is a big problem in Salon 
+	When i deactive salon 
+	Then no admin should not can add movies for this salon 
+
+Scenario: Deactive Chair
+	And i know one of chairs broked or something 
+	When i deactive chair 
+	Then any customer should not can rent it for watching movie

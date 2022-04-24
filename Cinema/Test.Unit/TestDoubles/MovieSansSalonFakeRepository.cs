@@ -17,7 +17,7 @@ namespace Test.Unit.TestDoubles
             throw new NotImplementedException();
         }
 
-        public MovieSansSalon FindMovie(int movieId, int cityId)
+        public List<MovieSansSalon> FindOnScreenMovies(int movieId, int cityId)
         {
             throw new NotImplementedException();
         }

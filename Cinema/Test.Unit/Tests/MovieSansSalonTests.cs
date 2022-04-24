@@ -31,11 +31,13 @@ namespace Test.Unit.Tests
         public Salon CreateMovieSansSalon_MockSetup()
         {
             var cinema = new CinemaBuilder().Build();
-            var cinemaActivity = new List<CinemaActivity>() { new CinemaActivityBuilder().WithEndDate(DateTime.Now.Date).Build() };
+            var cinemaActivity = new CinemaActivityBuilder().Build();
+            
+            var cinemaActivities = new List<CinemaActivity>() {cinemaActivity };
 
             var mockSalon = new Mock<Salon>();
             mockSalon.Setup(i => i.Cinema).Returns(cinema);
-            mockSalon.Setup(i => i.Cinema.CinemaActivities).Returns(cinemaActivity);
+            mockSalon.Setup(i => i.Cinema.CinemaActivities).Returns(cinemaActivities);
 
             return mockSalon.Object;
         }
@@ -54,7 +56,6 @@ namespace Test.Unit.Tests
             salonMockRepository.Setup(i => i.FindWithParents(mockSalon.Id)).Returns(mockSalon);
 
             var service = new MovieSansSalonService(_movieFakeRepository, salonMockRepository.Object, _sansFakeRepository, _movieSansSalonFakeRepository);
-
 
             var result = service.Create(obj.MovieId, mockSalon.Id, obj.SansId, obj.AdminGuid);
             result.Status.ToString().Should().Be("RanToCompletion");
@@ -118,7 +119,7 @@ namespace Test.Unit.Tests
 
             var mockSalon = new Mock<Salon>();
             var cinema = new CinemaBuilder().Build();
-            var cinemaActivity = new List<CinemaActivity>() { new CinemaActivityBuilder().WithEndDate(null).Build() };
+            var cinemaActivity = new List<CinemaActivity>() { new CinemaActivityBuilder().Build() };
 
             mockSalon.Setup(i => i.Cinema).Returns(cinema);
             mockSalon.Setup(i => i.Cinema.CinemaActivities).Returns(cinemaActivity);

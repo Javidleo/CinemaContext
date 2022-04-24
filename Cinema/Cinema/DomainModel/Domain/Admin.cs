@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DomainModel
+namespace DomainModel.Domain
 {
     public class Admin
     {
@@ -24,7 +24,7 @@ namespace DomainModel
 
         public virtual Cinema Cinema { get; private set; }
 
-        Admin(int cinemaid, string name, string family, string nationalCode, string email,string userName, string password)
+        Admin(int cinemaid, string name, string family, string nationalCode, string email, string userName, string password)
         {
             CinemaId = cinemaid;
             Name = name;
@@ -35,7 +35,7 @@ namespace DomainModel
             Password = password;
         }
 
-        public static Admin Create(int cinemaId, string name, string family, string nationalCode, string email,string userName, string password)
-        => new(cinemaId, name, family, nationalCode, email,userName, password);
+        public static Admin Create(int cinemaId, string name, string family, string nationalCode, string email, string userName, string password)
+        => new(cinemaId, name, family, nationalCode, email, userName, password);
     }
 }
