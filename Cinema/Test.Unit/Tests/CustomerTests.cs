@@ -1,5 +1,4 @@
-﻿
-using DomainModel;
+﻿using DomainModel.Domain;
 using DomainModel.Validation;
 using FluentAssertions;
 using FluentValidation.TestHelper;

@@ -1,4 +1,4 @@
-﻿using DomainModel;
+﻿using DomainModel.Domain;
 using UseCases.RepositoryContract;
 
 namespace Test.Unit.TestDoubles

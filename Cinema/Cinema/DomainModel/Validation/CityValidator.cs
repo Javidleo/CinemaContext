@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using DomainModel.Domain;
+using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Linq;

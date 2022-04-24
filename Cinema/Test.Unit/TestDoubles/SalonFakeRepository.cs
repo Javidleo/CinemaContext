@@ -1,4 +1,4 @@
-﻿using DomainModel;
+﻿using DomainModel.Domain;
 using Test.Unit.builders;
 using UseCases.RepositoryContract;
 

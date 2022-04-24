@@ -1,4 +1,4 @@
-﻿using DomainModel;
+﻿using DomainModel.Domain;
 using DomainModel.Validation;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;

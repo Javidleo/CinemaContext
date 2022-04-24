@@ -1,4 +1,4 @@
-﻿using DomainModel;
+﻿using DomainModel.Domain;
 using System;
 using System.Collections.Generic;
 using UseCases.RepositoryContract;
@@ -12,7 +12,7 @@ namespace Test.Unit.TestDoubles
 
         }
 
-        public List<MovieSansSalon> FindMovie(int movieId, int cityId, DateTime premiereDate)
+        public List<MovieSansSalon> FindOnScreenMovies(int movieId, int cityId, DateTime premiereDate)
         {
             throw new NotImplementedException();
         }

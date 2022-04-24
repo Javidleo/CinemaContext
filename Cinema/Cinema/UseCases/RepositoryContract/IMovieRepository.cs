@@ -1,4 +1,4 @@
-﻿using DomainModel;
+﻿using DomainModel.Domain;
 
 namespace UseCases.RepositoryContract
 {

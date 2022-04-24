@@ -1,7 +1,7 @@
 ﻿using NEGSO.Utilities;
 using System;
 
-namespace DomainModel
+namespace DomainModel.Domain
 {
     public class CinemaActivity
     {
@@ -30,14 +30,14 @@ namespace DomainModel
         private CinemaActivity(int cinemaId, DateTime startDate, string persianStartDate, DateTime? endDate, string persianEndDate,
                                 string description, Guid adminGuid, string adminFullName)
         {
-            this.CinemaId = cinemaId;
-            this.StartDate = startDate;
-            this.StartDatePersian = persianStartDate;
-            this.EndDate = endDate;
-            this.EndDatePersian = persianEndDate;
-            this.Description = description;
-            this.AdminGuid = adminGuid;
-            this.AdminFullName = adminFullName;
+            CinemaId = cinemaId;
+            StartDate = startDate;
+            StartDatePersian = persianStartDate;
+            EndDate = endDate;
+            EndDatePersian = persianEndDate;
+            Description = description;
+            AdminGuid = adminGuid;
+            AdminFullName = adminFullName;
         }
 
         public static CinemaActivity Create(int cinemaId, DateTime startDate, string persianStartDate, DateTime? endDate, string persianEndDate,

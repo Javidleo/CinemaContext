@@ -1,4 +1,4 @@
-﻿using DomainModel;
+﻿using DomainModel.Domain;
 using DomainModel.Validation;
 using NEGSO.Utilities;
 using System;

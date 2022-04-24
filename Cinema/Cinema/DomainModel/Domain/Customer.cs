@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DomainModel
+namespace DomainModel.Domain
 {
     public class Customer
     {
@@ -17,14 +17,14 @@ namespace DomainModel
 
         public virtual List<Ticket> Tickets { get; private set; } = new List<Ticket>();
 
-        private Customer(string name,string family,string email) 
+        private Customer(string name, string family, string email)
         {
-            this.Name = name;
-            this.Family = family;
-            this.Email = email;
+            Name = name;
+            Family = family;
+            Email = email;
         }
 
-        public static Customer Create(string name,string family,string email)
-        => new Customer(name,family,email);
+        public static Customer Create(string name, string family, string email)
+        => new Customer(name, family, email);
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DomainModel
+namespace DomainModel.Domain
 {
     public class Sans
     {
@@ -13,9 +13,9 @@ namespace DomainModel
 
         public virtual List<MovieSansSalon> MovieSansSalons { get; private set; } = new List<MovieSansSalon>();
 
-        private Sans(string name) 
+        private Sans(string name)
         {
-            this.Name = name;
+            Name = name;
         }
 
         public static Sans Create(string name)

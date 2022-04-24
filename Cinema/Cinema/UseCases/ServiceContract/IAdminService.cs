@@ -1,4 +1,4 @@
-﻿using DomainModel;
+﻿using DomainModel.Domain;
 using System.Threading.Tasks;
 
 namespace UseCases.ServiceContract

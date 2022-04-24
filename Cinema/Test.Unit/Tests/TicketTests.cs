@@ -1,4 +1,4 @@
-﻿using DomainModel;
+﻿using DomainModel.Domain;
 using FluentAssertions;
 using Moq;
 using System.Linq;

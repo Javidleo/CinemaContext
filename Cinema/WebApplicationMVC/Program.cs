@@ -1,5 +1,7 @@
 using DataAccess;
 using DataAccess.Repository;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using UseCases.RepositoryContract;
 using UseCases.ServiceContract;
 using UseCases.Services;
@@ -27,6 +29,10 @@ builder.Services.AddTransient<IAdminRepository, AdminRepository>();
 builder.Services.AddTransient<IMovieSansSalonRepository, MovieSansSalonRepository>();
 
 builder.Services.AddSqlServer<CinemaContext>("Server=DESKTOP-MONHQ70;Database=bookdb;Trusted_Connection=True;");
+
+builder.Services.AddControllers().AddMvcOptions(i => i.Filters.Add(new AuthorizeFilter()));
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(i => i.LoginPath = ""); //adding login path later
 
 var app = builder.Build();
 

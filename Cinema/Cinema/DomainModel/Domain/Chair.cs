@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DomainModel
+namespace DomainModel.Domain
 {
     public class Chair
     {
@@ -25,17 +25,17 @@ namespace DomainModel
 
         public Chair() { }
 
-        private Chair(int salonId, int number, int row) 
+        private Chair(int salonId, int number, int row)
         {
-            this.SalonId = SalonId;
-            this.Number = number;
-            this.Row = row;
+            SalonId = SalonId;
+            Number = number;
+            Row = row;
         }
 
         public static Chair Create(int salonId, int number, int row)
         => new(salonId, number, row);
 
         public void Disable()
-        => this.IsDisabled = true;
+        => IsDisabled = true;
     }
 }

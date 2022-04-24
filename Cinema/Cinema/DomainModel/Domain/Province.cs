@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DomainModel
+namespace DomainModel.Domain
 {
     public class Province
     {

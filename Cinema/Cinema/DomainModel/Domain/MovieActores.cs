@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DomainModel
+namespace DomainModel.Domain
 {
     public class MovieActores
     {
@@ -25,8 +25,8 @@ namespace DomainModel
         {
             BaseMaleActorName = baseMaleActorName;
             BaseFemaleActorName = baseFemaleActorName;
-            SupportedMaleActorName= supportedMaleActorName;
-            SupportedFemaleActorName= supportedFemaleActorName;
+            SupportedMaleActorName = supportedMaleActorName;
+            SupportedFemaleActorName = supportedFemaleActorName;
         }
 
         public static MovieActores Create(string baseMaleActorName, string baseFemaleActorName

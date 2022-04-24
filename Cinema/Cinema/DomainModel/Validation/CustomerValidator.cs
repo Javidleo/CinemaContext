@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using DomainModel.Domain;
+using FluentValidation;
 
 namespace DomainModel.Validation
 {

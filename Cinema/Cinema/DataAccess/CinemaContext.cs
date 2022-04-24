@@ -1,5 +1,5 @@
 ﻿using DataAccess.Mapping;
-using DomainModel;
+using DomainModel.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess

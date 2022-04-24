@@ -1,4 +1,4 @@
-﻿using DomainModel;
+﻿using DomainModel.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,7 +54,7 @@ namespace UseCases.Services
 
         public Task<List<GetMovieByCityViewModel>> GetMovieByCity(int movieId, int cityId, DateTime premiereDate)
         {
-            var movies = _movieSansSalonRepository.FindMovie(movieId, cityId, premiereDate);
+            var movies = _movieSansSalonRepository.FindOnScreenMovies(movieId, cityId, premiereDate);
 
             var result = new List<GetMovieByCityViewModel>();
             var viewModelItem = new GetMovieByCityViewModel();
@@ -73,7 +73,21 @@ namespace UseCases.Services
 
         public Task<List<GetMovieByCityViewModel>> GetMovieByCity(int movieId, int cityId)
         {
-            throw new NotImplementedException();
+            var movies = _movieSansSalonRepository.FindOnScreenMovies(movieId, cityId);
+
+            var result = new List<GetMovieByCityViewModel>();
+            var viewModelItem = new GetMovieByCityViewModel();
+
+            foreach (var movie in movies)
+            {
+                viewModelItem.CinemaName = movie.Salon.Cinema.Name;
+                viewModelItem.CinemaAddress = movie.Salon.Cinema.Address;
+                viewModelItem.SansName = movie.Sans.Name;
+                viewModelItem.TicketPrice = movie.Salon.Cinema.TicketPrice;
+
+                result.Add(viewModelItem);
+            }
+            return Task.FromResult(result);
         }
     }
 }

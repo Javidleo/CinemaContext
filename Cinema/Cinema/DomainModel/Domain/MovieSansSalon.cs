@@ -1,7 +1,7 @@
 ﻿using NEGSO.Utilities;
 using System;
 
-namespace DomainModel
+namespace DomainModel.Domain
 {
     public class MovieSansSalon
     {
@@ -25,7 +25,7 @@ namespace DomainModel
 
         public virtual Sans Sans { get; private set; }
 
-        private MovieSansSalon(int movieId,int salonId,int sansId,Guid adminGuid)
+        private MovieSansSalon(int movieId, int salonId, int sansId, Guid adminGuid)
         {
             MovieId = movieId;
             SalonId = salonId;

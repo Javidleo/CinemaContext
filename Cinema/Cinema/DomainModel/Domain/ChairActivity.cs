@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DomainModel
+namespace DomainModel.Domain
 {
     public class ChairActivity
     {
@@ -18,7 +18,7 @@ namespace DomainModel
 
         public DateTime EndDate { get; private set; }
 
-        public string EndDatePersian { get; private set;}
+        public string EndDatePersian { get; private set; }
 
         public string Desicription { get; private set; }
 

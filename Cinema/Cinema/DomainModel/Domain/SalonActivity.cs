@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DomainModel
+namespace DomainModel.Domain
 {
     public class SalonActivity
     {

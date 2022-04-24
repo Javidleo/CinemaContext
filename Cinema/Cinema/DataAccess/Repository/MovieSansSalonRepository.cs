@@ -1,4 +1,4 @@
-﻿using DomainModel;
+﻿using DomainModel.Domain;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -18,16 +18,16 @@ namespace DataAccess.Repository
             _context.MovieSansSalon.Add(obj);
             _context.SaveChanges();
         }
-
-        public List<MovieSansSalon> FindMovie(int movieId, int cityId, DateTime premiereDate)
+        
+        public List<MovieSansSalon> FindOnScreenMovies(int movieId, int cityId, DateTime premiereDate)
         => _context.MovieSansSalon
                 .Include(i => i.Salon).ThenInclude(i => i.Cinema).ThenInclude(i => i.City)
                         .Where(i => i.MovieId == movieId && i.Salon.Cinema.City.Id == cityId && i.PremiereDate == premiereDate.Date).ToList();
 
-        public MovieSansSalon FindMovie(int movieId,int cityId)
+        public List<MovieSansSalon> FindOnScreenMovies(int movieId,int cityId)
         => _context.MovieSansSalon
                 .Include(i => i.Salon).ThenInclude(i => i.Cinema).ThenInclude(i => i.City)
-                            .FirstOrDefault(i => i.MovieId == movieId && i.Salon.Cinema.City.Id == cityId);
+                            .Where(i => i.MovieId == movieId && i.Salon.Cinema.City.Id == cityId).ToList();
 
     }
 }

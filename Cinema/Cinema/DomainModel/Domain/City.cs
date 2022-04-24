@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DomainModel
+namespace DomainModel.Domain
 {
     public class City
     {
@@ -17,13 +17,13 @@ namespace DomainModel
 
         public virtual Province Province { get; private set; }
 
-        private City(string name,int provinceId) 
+        private City(string name, int provinceId)
         {
-            this.Name = name;
-            this.ProvinceId = provinceId;
+            Name = name;
+            ProvinceId = provinceId;
         }
 
-        public static City Create(string name,int provinceId)
-        => new(name,provinceId);
+        public static City Create(string name, int provinceId)
+        => new(name, provinceId);
     }
 }

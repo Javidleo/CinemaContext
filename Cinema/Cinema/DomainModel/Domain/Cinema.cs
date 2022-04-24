@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DomainModel
+namespace DomainModel.Domain
 {
     public class Cinema
     {
@@ -26,14 +26,14 @@ namespace DomainModel
 
         public virtual List<CinemaActivity> CinemaActivities { get; private set; } = new List<CinemaActivity>();
 
-        public virtual List<Ticket> Tickets { get; private set; }= new List<Ticket>();
+        public virtual List<Ticket> Tickets { get; private set; } = new List<Ticket>();
 
         public virtual City City { get; private set; }
 
         public virtual List<Admin> Admins { get; private set; } = new List<Admin>();
 
         public Cinema() { }
-        private Cinema(string name, decimal ticketPrice, string address, int cityId) 
+        private Cinema(string name, decimal ticketPrice, string address, int cityId)
         {
             Name = name;
             TicketPrice = ticketPrice;
