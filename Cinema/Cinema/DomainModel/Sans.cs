@@ -13,11 +13,12 @@ namespace DomainModel
 
         public virtual List<MovieSansSalon> MovieSansSalons { get; private set; } = new List<MovieSansSalon>();
 
-        private Sans() { }
-
-        public static Sans Create()
+        private Sans(string name) 
         {
-            throw new NotImplementedException();
+            this.Name = name;
         }
+
+        public static Sans Create(string name)
+        => new(name);
     }
 }

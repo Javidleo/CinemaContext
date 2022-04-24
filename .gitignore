@@ -319,6 +319,7 @@ StyleCopReport.xml
 *.ipdb
 *_wpftmp.csproj
 *.tlog
+*.csproj
 
 # Chutzpah Test files
 

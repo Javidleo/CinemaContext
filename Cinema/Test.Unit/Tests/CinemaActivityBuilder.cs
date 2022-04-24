@@ -10,7 +10,7 @@ namespace Test.Unit.Tests
         private DateTime _startDate = DateTime.Now.Date;
         private string _persianStartDate = DateTime.Now.ToPersianDate();
         private DateTime? _endDate = null;
-        private string _persianEndDate = new DateTime(2020,11,11).ToPersianDate();
+        private string _persianEndDate = new DateTime(2020, 11, 11).ToPersianDate();
         private string _desceription = "new movie added by me ";
         private Guid _adminGuid = Guid.NewGuid();
         private string _adminFullName = "javid";

@@ -23,7 +23,8 @@ namespace Test.Unit.TestDoubles
 
         public Salon FindWithParents(int salonId)
         {
-            return new SalonBuilder().Build();
+            if (_existingId == salonId) return new SalonBuilder().Build();
+            return null;
         }
     }
 }

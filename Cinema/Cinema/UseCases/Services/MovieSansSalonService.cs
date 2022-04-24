@@ -15,16 +15,14 @@ namespace UseCases.Services
         private readonly IMovieRepository _movieRepository;
         private readonly ISalonRepository _salonRepository;
         private readonly ISansRepository _sansRepository;
-        private readonly IAdminRepository _adminRepository;
         private readonly IMovieSansSalonRepository _movieSansSalonRepository;
 
         public MovieSansSalonService(IMovieRepository movieRepository, ISalonRepository salonRepository, ISansRepository sansRepository
-                                    , IAdminRepository adminRepository, IMovieSansSalonRepository movieSansSalonRepository)
+                                 , IMovieSansSalonRepository movieSansSalonRepository)
         {
             _movieRepository = movieRepository;
             _salonRepository = salonRepository;
             _sansRepository = sansRepository;
-            _adminRepository = adminRepository;
             _movieSansSalonRepository = movieSansSalonRepository;
         }
 
@@ -42,7 +40,10 @@ namespace UseCases.Services
 
             var salon = _salonRepository.FindWithParents(salonId);
 
-            if (salon is null || salon.Cinema.CinemaActivities.Any(i => i.EndDatePersian == null))
+            if (salon is null)
+                throw new NotFoundException("slon not found");
+
+            if (salon.Cinema.CinemaActivities.Any(i => i.EndDate == null))
                 throw new NotAcceptableException("cinema is deactivated please check the cinema status");
 
             MovieSansSalon movieSansSalon = MovieSansSalon.Create(movieId, salonId, sansId, adminGuid);
@@ -51,14 +52,14 @@ namespace UseCases.Services
             return Task.CompletedTask;
         }
 
-        public Task<List<GetMovieByCityViewModel>> GetMovieByCity(int movieId, int cityId,DateTime premiereDate)
+        public Task<List<GetMovieByCityViewModel>> GetMovieByCity(int movieId, int cityId, DateTime premiereDate)
         {
-            var movies = _movieSansSalonRepository.FindMovie(movieId, cityId,premiereDate);
+            var movies = _movieSansSalonRepository.FindMovie(movieId, cityId, premiereDate);
 
             var result = new List<GetMovieByCityViewModel>();
             var viewModelItem = new GetMovieByCityViewModel();
 
-            foreach(var movie in movies)
+            foreach (var movie in movies)
             {
                 viewModelItem.CinemaName = movie.Salon.Cinema.Name;
                 viewModelItem.SansName = movie.Sans.Name;

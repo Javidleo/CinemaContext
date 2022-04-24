@@ -17,11 +17,13 @@ namespace DomainModel
 
         public virtual Province Province { get; private set; }
 
-        private City() { }
-
-        public static City Create()
+        private City(string name,int provinceId) 
         {
-            throw new NotImplementedException();
+            this.Name = name;
+            this.ProvinceId = provinceId;
         }
+
+        public static City Create(string name,int provinceId)
+        => new(name,provinceId);
     }
 }
