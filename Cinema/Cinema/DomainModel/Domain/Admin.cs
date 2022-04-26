@@ -24,7 +24,8 @@ namespace DomainModel.Domain
 
         public virtual Cinema Cinema { get; private set; }
 
-        Admin(int cinemaid, string name, string family, string nationalCode, string email, string userName, string password)
+        Admin() { }
+        private Admin(int cinemaid, string name, string family, string nationalCode, string email, string userName, string password)
         {
             CinemaId = cinemaid;
             Name = name;

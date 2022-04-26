@@ -6,15 +6,15 @@ namespace Test.Unit.builders
     {
         public int salonId  = 1;
         public int count = 1;
-        public int row  = 1;
-        public int number  = 1;
+        public byte row  = 1;
+        public byte number  = 1;
 
         public ChairBuilder WithSalonId(int salonId)
         {
             this.salonId = salonId;
             return this;
         }
-        public ChairBuilder WithNumber(int number)
+        public ChairBuilder WithNumber(byte number)
         {
             this.number = number;
             return this;
@@ -24,7 +24,7 @@ namespace Test.Unit.builders
             this.count = count;
             return this;
         }
-        public ChairBuilder WithRow(int row)
+        public ChairBuilder WithRow(byte row)
         {
             this.row = row;
             return this;

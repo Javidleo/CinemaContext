@@ -24,7 +24,7 @@ namespace UseCases.Services
         public Task Create(Guid adminGuid, string adminFullName, string name, string director, string producer
             , DateTime publishDate, string baseMaleActorName, string baseFemaleActorName, string supportedMaleActorName, string supportedFemaleActorName)
         {
-            MovieActores actores = MovieActores.Create(baseMaleActorName, baseFemaleActorName, supportedMaleActorName, supportedFemaleActorName);
+            MovieActores actores = MovieActores.Create(baseMaleActorName, baseFemaleActorName, supportedMaleActorName, supportedFemaleActorName,adminGuid,adminFullName);
 
             Movie movie = Movie.Create(adminGuid, adminFullName, name, director, producer, publishDate, publishDate.ToPersianDate(), actores);
 

@@ -10,14 +10,12 @@ namespace DomainModel.Domain
         public string Name { get; private set; }
 
         public Guid ProvinceGuid { get; private set; }
-
         public virtual List<City> Cities { get; private set; } = new List<City>();
 
-        private Province() { }
+        private Province(string name)
+        => this.Name = name;
 
-        public static Province Create()
-        {
-            throw new NotImplementedException();
-        }
+        public static Province Create(string name)
+        => new(name);
     }
 }

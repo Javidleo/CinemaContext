@@ -11,7 +11,7 @@ namespace DomainModel.Validation
             _base = new Base_Validation();
 
             RuleFor(i => i.Name).NotEmpty().WithMessage("name is empty").Matches(_base.Persian_English_Numbers_WhiteSpaceRegex).WithMessage("invalid name");
-            RuleFor(i => i.Capacity).ExclusiveBetween(5, 2000).WithMessage("invalid capacity");
+            RuleFor(i => i.Capacity).InclusiveBetween(1, 500);
         }
     }
 }

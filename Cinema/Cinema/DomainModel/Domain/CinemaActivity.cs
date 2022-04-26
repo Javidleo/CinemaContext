@@ -27,6 +27,7 @@ namespace DomainModel.Domain
 
         public virtual Cinema Cinema { get; private set; }
 
+        CinemaActivity() { }
         private CinemaActivity(int cinemaId, DateTime startDate, string persianStartDate
                                 ,string description, Guid adminGuid, string adminFullName)
         {

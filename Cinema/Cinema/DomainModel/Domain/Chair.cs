@@ -9,9 +9,9 @@ namespace DomainModel.Domain
 
         public int SalonId { get; private set; }
 
-        public int Number { get; private set; }
+        public byte Number { get; private set; }
 
-        public int Row { get; private set; }
+        public byte Row { get; private set; }
 
         public bool IsDisabled { get; private set; }
 
@@ -25,14 +25,14 @@ namespace DomainModel.Domain
 
         public Chair() { }
 
-        private Chair(int salonId, int number, int row)
+        private Chair(int salonId, byte number, byte row)
         {
-            SalonId = SalonId;
+            SalonId = salonId;
             Number = number;
             Row = row;
         }
 
-        public static Chair Create(int salonId, int number, int row)
+        public static Chair Create(int salonId, byte number, byte row)
         => new(salonId, number, row);
 
         public void Disable()

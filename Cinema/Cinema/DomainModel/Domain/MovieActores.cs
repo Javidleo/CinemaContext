@@ -18,19 +18,26 @@ namespace DomainModel.Domain
 
         public Guid MovieActorGuid { get; private set; }
 
+        public Guid AdminGuid { get; private set; }
+
+        public string AdminFullName { get; private set; }
+
         public virtual Movie Movie { get; private set; }
 
-        private MovieActores(string baseMaleActorName, string baseFemaleActorName
-                                        , string supportedMaleActorName, string supportedFemaleActorName)
+        MovieActores() { }
+        private MovieActores(string baseMaleActorName, string baseFemaleActorName, string supportedMaleActorName,
+                                 string supportedFemaleActorName, Guid adminGuid, string adminFullName)
         {
             BaseMaleActorName = baseMaleActorName;
             BaseFemaleActorName = baseFemaleActorName;
             SupportedMaleActorName = supportedMaleActorName;
             SupportedFemaleActorName = supportedFemaleActorName;
+            AdminGuid = adminGuid;
+            AdminFullName = adminFullName;
         }
 
-        public static MovieActores Create(string baseMaleActorName, string baseFemaleActorName
-                                        , string supportedMaleActorName, string supportedFemaleActorName)
-        => new(baseMaleActorName, baseFemaleActorName, supportedMaleActorName, supportedFemaleActorName);
+        public static MovieActores Create(string baseMaleActorName, string baseFemaleActorName, string supportedMaleActorName,
+                                         string supportedFemaleActorName,Guid adminGuid, string adminFullName)
+        => new(baseMaleActorName, baseFemaleActorName, supportedMaleActorName, supportedFemaleActorName,adminGuid,adminFullName);
     }
 }

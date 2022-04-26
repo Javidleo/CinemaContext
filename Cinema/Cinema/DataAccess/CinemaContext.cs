@@ -1,6 +1,7 @@
 ﻿using DataAccess.Mapping;
 using DomainModel.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace DataAccess
 {
@@ -22,11 +23,12 @@ namespace DataAccess
         public DbSet<MovieSansSalon> MovieSansSalon { get; set; }
         public DbSet<Sans> Sans { get; set; }
         public DbSet<City> City { get; set; }
-        public DbSet<Province> Privince { get; set; }
+        public DbSet<Province> Province { get; set; }
 
+        //public IConfigurationRoot Configuration { get; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            base.OnConfiguring(optionsBuilder);
+            optionsBuilder.UseSqlServer("Server=.;Database=Cinema;Trusted_Connection=True;");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

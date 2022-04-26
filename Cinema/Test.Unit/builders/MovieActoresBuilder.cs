@@ -1,4 +1,5 @@
 ﻿using DomainModel.Domain;
+using System;
 
 namespace Test.Unit.builders
 {
@@ -8,6 +9,8 @@ namespace Test.Unit.builders
         private string _baseFemale = "nahid rezaie";
         private string _supportedMale = "reza navidi";
         private string _supportedFemale = "zahra hassani";
+        private Guid _adminGuid = Guid.NewGuid();
+        private string _adminFullName = "adminfullname";
 
         public MovieActoresBuilder WithBaseMaleActor(string name)
         {
@@ -29,8 +32,18 @@ namespace Test.Unit.builders
             _supportedFemale = name;
             return this;
         }
+        public MovieActoresBuilder WithAdminGuid(Guid adminGuid)
+        {
+            _adminGuid = adminGuid;
+            return this;
+        }
+        public MovieActoresBuilder WithAdminFullName(string adminFullName)
+        {
+            this._adminFullName = adminFullName;
+            return this;
+        }
 
         public MovieActores Build()
-        => MovieActores.Create(_baseMale, _baseFemale, _supportedMale, _supportedFemale);
+        => MovieActores.Create(_baseMale, _baseFemale, _supportedMale, _supportedFemale, _adminGuid, _adminFullName);
     }
 }

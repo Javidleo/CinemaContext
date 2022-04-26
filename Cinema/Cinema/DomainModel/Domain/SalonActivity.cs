@@ -26,11 +26,22 @@ namespace DomainModel.Domain
 
         public virtual Salon Salon { get; private set; }
 
-        private SalonActivity() { }
+        SalonActivity() { }
 
-        public static SalonActivity Create()
+        private SalonActivity(int salonId,DateTime startDate,string startDatePersian,string description,Guid adminGuid,
+                        string adminFullName) 
         {
-            throw new NotImplementedException();
+            this.SalonId = salonId;
+            this.StartDate = startDate;
+            this.StartDatePersian = startDatePersian;
+            this.Description = description;
+            this.AdminGuid = adminGuid;
+            this.AdminFullName = adminFullName;
+
         }
+
+        public static SalonActivity Create(int salonId, DateTime startDate, string startDatePersian, string description, Guid adminGuid,
+                        string adminFullName)
+        => new(salonId, startDate, startDatePersian, description, adminGuid, adminFullName);
     }
 }

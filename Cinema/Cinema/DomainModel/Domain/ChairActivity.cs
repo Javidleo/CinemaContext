@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DomainModel.Domain
 {
@@ -20,7 +16,7 @@ namespace DomainModel.Domain
 
         public string EndDatePersian { get; private set; }
 
-        public string Desicription { get; private set; }
+        public string Description { get; private set; }
 
         public Guid ChairActivityGuid { get; private set; }
 
@@ -29,11 +25,21 @@ namespace DomainModel.Domain
         public string AdminFullName { get; private set; }
 
         public virtual Chair Chair { get; private set; }
-        private ChairActivity() { }
 
-        public static ChairActivity Create()
+        ChairActivity() { }
+
+        private ChairActivity(int chairId, DateTime startDate, string startDatePersian,string description, Guid adminGuid, string adminFullName)
         {
-            throw new NotImplementedException();
+            ChairId = chairId;
+            StartDate = startDate;
+            StartDatePersian = startDatePersian;
+            Description = description;
+            AdminGuid = adminGuid;
+            AdminFullName = adminFullName;
         }
+
+        public static ChairActivity Create(int chairId, DateTime startDate, string startDatePersian,
+                    string description, Guid adminGuid, string adminFullName)
+        => new(chairId, startDate, startDatePersian,description, adminGuid, adminFullName);
     }
 }
