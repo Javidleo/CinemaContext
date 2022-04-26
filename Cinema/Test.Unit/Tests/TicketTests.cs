@@ -1,10 +1,10 @@
 ﻿using DomainModel.Domain;
 using FluentAssertions;
 using Moq;
+using System.Collections.Generic;
 using System.Linq;
 using Test.Unit.builders;
 using Test.Unit.TestDoubles;
-using UseCases.Exceptions;
 using UseCases.RepositoryContract;
 using UseCases.ServiceContract;
 using UseCases.Services;
@@ -19,11 +19,14 @@ namespace Test.Unit.Tests
         private readonly MovieSansSalonFakeRepository _movieSansSalonFakeRepository;
         private readonly CinemaFakeRepository _cinemaFakeRepository;
         private Mock<IChairRepository> _chairMockRepository;
-        private Salon _salon;
-        private Cinema _cinema;
-        private Mock<Chair> _mockChair;
-        private Ticket _ticket;
+
         private readonly ITicketService _ticketService;
+        private Ticket _ticket;
+        private Mock<Chair> _mockChair;
+
+        //fixed variables
+        private int _count = 1;
+        private int _movieSansSalonId = 1;
         public TicketTests()
         {
             _ticketFakeRepository = new TicketFakeRepository();
@@ -31,36 +34,50 @@ namespace Test.Unit.Tests
             _chairMockRepository = new Mock<IChairRepository>();
             _movieSansSalonFakeRepository = new MovieSansSalonFakeRepository();
             _cinemaFakeRepository = new CinemaFakeRepository();
-            _ticketService = new TicketService(_ticketFakeRepository, _chairMockRepository.Object, _customerFakeRepository,                                                         _movieSansSalonFakeRepository,_cinemaFakeRepository);
-            // mock setup
-            _salon = new SalonBuilder().Build();
-            _cinema = new CinemaBuilder().Build();
+
+            _ticketService = new TicketService(_ticketFakeRepository, _chairMockRepository.Object, _customerFakeRepository, _movieSansSalonFakeRepository, _cinemaFakeRepository);
+
+            var salon = new SalonBuilder().Build();
+            var cinema = new CinemaBuilder().Build();
             _mockChair = new Mock<Chair>();
-            _mockChair.Setup(i => i.Salon).Returns(_salon);
-            _mockChair.Setup(i => i.Salon.Cinema).Returns(_cinema);
+            _mockChair.Setup(i => i.Salon).Returns(salon);
+            _mockChair.Setup(i => i.Salon.Cinema).Returns(cinema);
 
             _ticket = new TicketBuilder()
                             .withCustomerId(1)
                             .WithChairId(_mockChair.Object.Id)
                             .WithSalonId(_mockChair.Object.Salon.Id)
-                            .WithCinemaId(_cinema.Id).WithPrice(20000).Build();
+                            .WithCinemaId(cinema.Id).WithPrice(20000).Build();
 
             _chairMockRepository.Setup(i => i.DoesExist(_mockChair.Object.Id)).Returns(true);
-            _chairMockRepository.Setup(i => i.FindWithParents(_mockChair.Object.Id)).Returns(_mockChair.Object);
-
+            _chairMockRepository.Setup(i => i.FindBySalon(_mockChair.Object.SalonId)).Returns(new List<Chair>() { _mockChair.Object });
         }
+
+
 
         [Fact]
         public void CreateTicket_CheckForWorkingWell()
         {
             _customerFakeRepository.SetExistingId(_ticket.CustomerId.Value);
-            _cinemaFakeRepository.SetExistingId(_cinema.Id);
-            _movieSansSalonFakeRepository.SetExistingId(1);
-            int count = 1;
+            _cinemaFakeRepository.SetExistingId(_mockChair.Object.Salon.CinemaId);
+            _movieSansSalonFakeRepository.SetExistingId(_movieSansSalonId);
 
-            var result = _ticketService.Create(_ticket.CustomerId, _cinema.Id, _salon.Id, count, 1, _ticket.Price);
+            _chairMockRepository = new Mock<IChairRepository>();
+
+            var result = _ticketService.Create(_ticket.CustomerId, _mockChair.Object.Salon.CinemaId, _mockChair.Object.SalonId, _count, _movieSansSalonId, _ticket.Price);
 
             result.Status.ToString().Should().Be("RanToCompletion");
         }
+
+        [Fact]
+        public void CreateTicket_CheckForInvalidCustomerId_SetCustomerIdToNull()
+        {
+
+
+            var excpected = _ticketFakeRepository.storage.Any(i => i.CustomerId == null);
+            excpected.Should().BeTrue();
+        }
+
+
     }
 }

@@ -38,7 +38,7 @@ namespace Test.Unit.Tests
 
         [Theory]
         [InlineData(1)]
-        [InlineData(50000)]
+        //[InlineData(50000)]
         [InlineData(0)]
         [InlineData(4.5)]
         public void SalonValidation_CheckForCapacity_ThrowValidationException(int capacity)

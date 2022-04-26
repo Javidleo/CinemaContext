@@ -3,6 +3,7 @@ using System;
 using Test.Unit.builders;
 using Test.Unit.TestDoubles;
 using UseCases.Exceptions;
+using UseCases.ServiceContract;
 using Xunit;
 
 namespace Test.Unit.Tests

@@ -45,7 +45,7 @@ namespace DomainModel.Domain
                                 string description, Guid adminGuid, string adminFullName)
         => new(cinemaId, startDate, persianStartDate, description, adminGuid, adminFullName);
 
-        public void Activate()
+        public void Reactivation()
         {
             EndDate = DateTime.Now.Date;
             EndDatePersian = DateTime.Now.ToPersianDate();

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using UseCases.Exceptions;
 using UseCases.RepositoryContract;
 
-namespace Test.Unit.Tests
+namespace UseCases.ServiceContract
 {
     public class CinemaActivityService : ICinemaActivityService
     {
@@ -20,7 +20,7 @@ namespace Test.Unit.Tests
             _cinemaActivityRepository = cinemaActivityRepository;
         }
 
-        public Task Deactivate(int cinemaId, string description,Guid adminGuid,string adminFullName)
+        public Task Deactivate(int cinemaId, string description, Guid adminGuid, string adminFullName)
         {
             if (!_cinemaRepository.DoesExist(cinemaId))
                 throw new NotFoundException("cinema not found");

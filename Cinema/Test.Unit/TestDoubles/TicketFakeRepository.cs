@@ -8,12 +8,17 @@ namespace Test.Unit.TestDoubles
     internal class TicketFakeRepository : ITicketRepository
     {
         private int _existingId;
-        public List<Ticket> storage = new List<Ticket>(); 
-        public void SetExistingId(int id)=> _existingId = id;
+        public List<Ticket> storage = new List<Ticket>();
+        public void SetExistingId(int id) => _existingId = id;
 
         public void Add(Ticket ticket)
         {
             storage.Add(ticket);
+        }
+
+        public void Add(List<Ticket> ticketList)
+        {
+            storage.AddRange(ticketList);
         }
 
         public bool DoesExist(int id)
@@ -22,9 +27,6 @@ namespace Test.Unit.TestDoubles
             return false;
         }
 
-        public void Add(List<Ticket> ticketList)
-        {
-            
-        }
+
     }
 }

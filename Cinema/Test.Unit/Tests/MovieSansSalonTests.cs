@@ -32,6 +32,7 @@ namespace Test.Unit.Tests
         {
             var cinema = new CinemaBuilder().Build();
             var cinemaActivity = new CinemaActivityBuilder().Build();
+            cinemaActivity.Reactivation(); // this method will set endDate and endDatePersian for cinemaActivity
 
             var cinemaActivities = new List<CinemaActivity>() { cinemaActivity };
 
@@ -94,7 +95,8 @@ namespace Test.Unit.Tests
             _sansFakeRepository.SetExistingId(obj.SansId);
 
             void result() => _service.Create(obj.MovieId, obj.SalonId, obj.SansId, obj.AdminGuid, obj.AdminFullName, obj.PremiereDate);
-            Assert.Throws<NotAcceptableException>(result);
+            var exception =Assert.Throws<NotAcceptableException>(result);
+            exception.Message.Should().Be("invalid adminId");
         }
 
         [Fact]
@@ -131,14 +133,10 @@ namespace Test.Unit.Tests
 
             void result() => service.Create(obj.MovieId, mockSalon.Object.Id, obj.SansId, obj.AdminGuid, obj.AdminFullName, obj.PremiereDate);
 
-            Assert.Throws<NotAcceptableException>(result);
+            var exception = Assert.Throws<NotAcceptableException>(result);
+            exception.Message.Should().Be("cinema is deactivated please check the cinema status");
         }
+        
 
-        //[Fact]
-
-        //public void GetMovieByCity_CheckForExcpectedValue()
-        //{
-        //    var result = _service.GetMovieByCity(movieId: 1, cityId: 1);
-        //}
     }
 }

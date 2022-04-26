@@ -44,5 +44,6 @@ namespace DomainModel.Domain
 
         public static Cinema Create(string name, decimal ticketPrice, string address, int cityId)
         => new(name, ticketPrice, address, cityId);
+        
     }
 }

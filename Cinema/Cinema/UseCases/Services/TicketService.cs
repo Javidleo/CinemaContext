@@ -26,13 +26,13 @@ namespace UseCases.Services
 
         public Task Create(int? customerId, int cinemaId, int salonId, int count, int movieSansSalonId, decimal ticketPrice)
         {
-            if (!_customerRepository.DoesExist(customerId))
+            if (! _customerRepository.DoesExist(customerId))
                 customerId = null;
 
-            if (!_cinemaRepository.DoesExist(cinemaId))
+            if (! _cinemaRepository.DoesExist(cinemaId))
                 throw new NotFoundException("cinema not found");
 
-            if (_movieSansSalonRepository.DoesExist(movieSansSalonId))
+            if (! _movieSansSalonRepository.DoesExist(movieSansSalonId))
                 throw new NotFoundException("movie not found");
 
             var chairs = _chairRepository.FindBySalon(salonId);
@@ -47,6 +47,7 @@ namespace UseCases.Services
                 var ticket = Ticket.Create(customerId, chairs[i].Id, salonId, cinemaId, movieSansSalonId, ticketPrice);
                 ticketList.Add(ticket);
             }
+
             _ticketRepository.Add(ticketList);
             return Task.CompletedTask;
         }

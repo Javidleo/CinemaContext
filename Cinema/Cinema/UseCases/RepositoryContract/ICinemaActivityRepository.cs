@@ -1,6 +1,6 @@
 ﻿using DomainModel.Domain;
 
-namespace Test.Unit.Tests
+namespace UseCases.RepositoryContract
 {
     public interface ICinemaActivityRepository
     {
