@@ -127,10 +127,11 @@ namespace Test.Integration
             result.Should().BeEquivalentTo(province);
         }
 
+        // test it later
         [Fact]
         public void CreateTicket()
         {
-            var ticket = Ticket.Create(null, 7, 2, 1, 20000);
+            var ticket = Ticket.Create(null,2,2,1,2,20000);
             _context.Ticket.Add(ticket);
             _context.SaveChanges();
 

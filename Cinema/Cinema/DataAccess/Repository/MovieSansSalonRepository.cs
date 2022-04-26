@@ -28,6 +28,8 @@ namespace DataAccess.Repository
         => _context.MovieSansSalon
                 .Include(i => i.Salon).ThenInclude(i => i.Cinema).ThenInclude(i => i.City)
                             .Where(i => i.MovieId == movieId && i.Salon.Cinema.City.Id == cityId).ToList();
+        public bool DoesExist(int Id)
+        => _context.MovieSansSalon.Any(i => i.Id == Id);
 
     }
 }

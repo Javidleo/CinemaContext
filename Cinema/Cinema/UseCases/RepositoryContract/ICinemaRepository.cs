@@ -1,4 +1,6 @@
-﻿namespace UseCases.RepositoryContract
+﻿using DomainModel.Domain;
+
+namespace UseCases.RepositoryContract
 {
     public interface ICinemaRepository
     {

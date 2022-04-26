@@ -9,6 +9,9 @@ namespace Test.Unit.builders
         private int _salonId = 1;
         private int _sansId = 1;
         private Guid _adminGuid = Guid.NewGuid();
+        private string _adminFullName = "javid";
+        private DateTime _premiereDate = DateTime.Now.Date;
+        private string _premiereDatePersian = "11/12/1399";
 
         public MovieSansSalonBuilder WithMovieId(int movieId)
         {
@@ -30,8 +33,23 @@ namespace Test.Unit.builders
             _adminGuid = adminGuid;
             return this;
         }
+        public MovieSansSalonBuilder WithAdminFullName(string adminFullName)
+        {
+            _adminFullName = adminFullName;
+            return this;
+        }
+        public MovieSansSalonBuilder WithPremiereDate(DateTime date)
+        {
+            _premiereDate = date;
+            return this;
+        }
+        public MovieSansSalonBuilder WithPremiereDatePersian(string persianDate)
+        {
+            _premiereDatePersian = persianDate;
+            return this;
+        }
 
         public MovieSansSalon Build()
-        => MovieSansSalon.Create(_movieId, _salonId, _sansId, _adminGuid);
+        => MovieSansSalon.Create(_movieId, _salonId, _sansId, _adminGuid, _adminFullName,_premiereDate,_premiereDatePersian);
     }
 }

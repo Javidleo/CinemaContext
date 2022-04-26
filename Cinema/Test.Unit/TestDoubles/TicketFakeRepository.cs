@@ -21,5 +21,10 @@ namespace Test.Unit.TestDoubles
             if (id == _existingId) return true;
             return false;
         }
+
+        public void Add(List<Ticket> ticketList)
+        {
+            
+        }
     }
 }

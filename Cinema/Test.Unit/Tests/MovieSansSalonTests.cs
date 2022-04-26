@@ -32,8 +32,8 @@ namespace Test.Unit.Tests
         {
             var cinema = new CinemaBuilder().Build();
             var cinemaActivity = new CinemaActivityBuilder().Build();
-            
-            var cinemaActivities = new List<CinemaActivity>() {cinemaActivity };
+
+            var cinemaActivities = new List<CinemaActivity>() { cinemaActivity };
 
             var mockSalon = new Mock<Salon>();
             mockSalon.Setup(i => i.Cinema).Returns(cinema);
@@ -57,7 +57,7 @@ namespace Test.Unit.Tests
 
             var service = new MovieSansSalonService(_movieFakeRepository, salonMockRepository.Object, _sansFakeRepository, _movieSansSalonFakeRepository);
 
-            var result = service.Create(obj.MovieId, mockSalon.Id, obj.SansId, obj.AdminGuid);
+            var result = service.Create(obj.MovieId, mockSalon.Id, obj.SansId, obj.AdminGuid, obj.AdminFullName, obj.PremiereDate);
             result.Status.ToString().Should().Be("RanToCompletion");
         }
 
@@ -66,7 +66,7 @@ namespace Test.Unit.Tests
         {
             var obj = new MovieSansSalonBuilder().Build();
 
-            void result() => _service.Create(obj.MovieId, obj.SalonId, obj.SansId, obj.AdminGuid);
+            void result() => _service.Create(obj.MovieId, obj.SalonId, obj.SansId, obj.AdminGuid, obj.AdminFullName, obj.PremiereDate);
 
             var exception = Assert.Throws<NotFoundException>(result);
             exception.Message.Should().Be("movie not found");
@@ -78,7 +78,7 @@ namespace Test.Unit.Tests
             var obj = new MovieSansSalonBuilder().Build();
             _movieFakeRepository.SetExistingId(obj.MovieId);
 
-            void result() => _service.Create(obj.MovieId, obj.SalonId, obj.SansId, obj.AdminGuid);
+            void result() => _service.Create(obj.MovieId, obj.SalonId, obj.SansId, obj.AdminGuid, obj.AdminFullName, obj.PremiereDate);
 
             var exception = Assert.Throws<NotFoundException>(result);
             exception.Message.Should().Be("sans not found");
@@ -93,7 +93,7 @@ namespace Test.Unit.Tests
             _movieFakeRepository.SetExistingId(obj.MovieId);
             _sansFakeRepository.SetExistingId(obj.SansId);
 
-            void result() => _service.Create(obj.MovieId, obj.SalonId, obj.SansId, obj.AdminGuid);
+            void result() => _service.Create(obj.MovieId, obj.SalonId, obj.SansId, obj.AdminGuid, obj.AdminFullName, obj.PremiereDate);
             Assert.Throws<NotAcceptableException>(result);
         }
 
@@ -105,7 +105,7 @@ namespace Test.Unit.Tests
             _movieFakeRepository.SetExistingId(obj.MovieId);
             _sansFakeRepository.SetExistingId(obj.SansId);
 
-            void result() => _service.Create(obj.MovieId, obj.SalonId, obj.SansId, obj.AdminGuid);
+            void result() => _service.Create(obj.MovieId, obj.SalonId, obj.SansId, obj.AdminGuid, obj.AdminFullName, obj.PremiereDate);
             Assert.Throws<NotFoundException>(result);
         }
 
@@ -129,7 +129,7 @@ namespace Test.Unit.Tests
 
             var service = new MovieSansSalonService(_movieFakeRepository, mockSalonRepository.Object, _sansFakeRepository, _movieSansSalonFakeRepository);
 
-            void result() => service.Create(obj.MovieId, mockSalon.Object.Id, obj.SansId, obj.AdminGuid);
+            void result() => service.Create(obj.MovieId, mockSalon.Object.Id, obj.SansId, obj.AdminGuid, obj.AdminFullName, obj.PremiereDate);
 
             Assert.Throws<NotAcceptableException>(result);
         }

@@ -13,6 +13,8 @@ namespace DomainModel.Domain
 
         public byte Row { get; private set; }
 
+        public bool InUse { get; private set; }
+
         public bool IsDisabled { get; private set; }
 
         public Guid ChairGuid { get; private set; }
@@ -37,5 +39,8 @@ namespace DomainModel.Domain
 
         public void Disable()
         => IsDisabled = true;
+
+        public void MakeInUse()
+        => InUse = true;
     }
 }

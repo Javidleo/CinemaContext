@@ -8,5 +8,6 @@ namespace UseCases.RepositoryContract
         void Add(List<Chair> chairs);
         Chair FindWithParents(int id);
         bool DoesExist(int id);
+        List<Chair> FindBySalon(int salonId);
     }
 }

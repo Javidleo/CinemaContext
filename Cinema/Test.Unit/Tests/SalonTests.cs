@@ -14,12 +14,12 @@ namespace Test.Unit.Tests
     {
         private readonly ISalonService _salonService;
         private readonly SalonValidator _validator;
-        private readonly CinemaFakeReopsitory _cinemaFakeRepository;
+        private readonly CinemaFakeRepository _cinemaFakeRepository;
         private readonly SalonFakeRepository _salonFakeRepository;
         public SalonTests()
         {
             _validator = new SalonValidator();
-            _cinemaFakeRepository = new CinemaFakeReopsitory();
+            _cinemaFakeRepository = new CinemaFakeRepository();
             _salonFakeRepository = new SalonFakeRepository();
             _salonService = new SalonService(_cinemaFakeRepository, _salonFakeRepository);
         }

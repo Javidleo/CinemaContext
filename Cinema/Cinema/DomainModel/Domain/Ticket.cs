@@ -14,6 +14,8 @@ namespace DomainModel.Domain
 
         public int CinemaId { get; private set; }
 
+        public int MovieSansSalonId { get; private set; }
+
         public decimal Price { get; private set; }
 
         public Guid TicketGuid { get; private set; }
@@ -26,16 +28,17 @@ namespace DomainModel.Domain
 
         public virtual Customer Customer { get; private set; }
 
-        private Ticket(int? customerId, int chairId, int salonId, int cinemaId, decimal price)
+        private Ticket(int? customerId, int chairId, int salonId, int cinemaId,int movieSansSalonId, decimal price)
         {
             CustomerId = customerId;
             ChairId = chairId;
             SalonId = salonId;
             CinemaId = cinemaId;
+            MovieSansSalonId = movieSansSalonId;
             Price = price;
         }
 
-        public static Ticket Create(int? customerId, int chairId, int salonId, int cinemaId, decimal price)
-        => new(customerId, chairId, salonId, cinemaId, price);
+        public static Ticket Create(int? customerId, int chairId, int salonId, int cinemaId,int movieSansSalonId, decimal price)
+        => new(customerId, chairId, salonId, cinemaId,movieSansSalonId, price);
     }
 }

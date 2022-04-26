@@ -20,6 +20,9 @@ namespace DataAccess.Repository
             _context.SaveChanges();
         }
 
+        public List<Chair> FindBySalon(int salonId)
+        => _context.Chair.Include(i => i.Salon).Where(i => i.SalonId == salonId && i.InUse == false).ToList();
+
         public bool DoesExist(int id)
         => _context.Chair.Any(i => i.Id == id);
 

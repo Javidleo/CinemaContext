@@ -7,23 +7,31 @@ namespace WebApplicationMVC.Controllers
     public class MovieController : Controller
     {
         private readonly IMovieService _movieService;
-        public MovieController(IMovieService movieService)
+        private readonly IMovieSansSalonService _movieSansSalonService;
+        public MovieController(IMovieService movieService, IMovieSansSalonService movieSansSalonservice)
         {
             _movieService = movieService;
+            _movieSansSalonService = movieSansSalonservice;
         }
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult GetOnScreenMoviesWithDate(int movieId, int cityId,DateTime premierDate)
+        [HttpGet("GetOnScreenMoviesWithDate")]
+        public async Task<IActionResult> GetOnScreenMoviesWithDate(int movieId, int cityId,DateTime premierDate)
         {
-            
+            var result = await _movieSansSalonService.GetMovieByCity(movieId,cityId,premierDate);
+
+            return Ok(result);
         }
 
-        public IActionResult GetOnScreenMovies(int movieId,int cityId)
+        [HttpGet("GetOnScreenMovies")]
+        public async Task<IActionResult> GetOnScreenMovies(int movieId,int cityId)
         {
-            return Ok();
+            var result = await _movieSansSalonService.GetMovieByCity(movieId, cityId);
+
+            return Ok(result);
         }
     }
 }

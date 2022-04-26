@@ -2,7 +2,7 @@
 
 namespace Test.Unit.TestDoubles
 {
-    internal class CinemaFakeReopsitory : ICinemaRepository
+    internal class CinemaFakeRepository : ICinemaRepository
     {
         private int _existingId;
         public void SetExistingId(int id)=> _existingId = id;

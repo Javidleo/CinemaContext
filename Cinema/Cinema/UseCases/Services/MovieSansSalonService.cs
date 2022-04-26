@@ -1,4 +1,5 @@
 ﻿using DomainModel.Domain;
+using NEGSO.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,7 @@ namespace UseCases.Services
             _movieSansSalonRepository = movieSansSalonRepository;
         }
 
-        public Task Create(int movieId, int salonId, int sansId, Guid adminGuid)
+        public Task Create(int movieId, int salonId, int sansId, Guid adminGuid,string adminFullName,DateTime premiereDate)
         {
             if (!_movieRepository.DoesExist(movieId))
                 throw new NotFoundException("movie not found");
@@ -46,7 +47,9 @@ namespace UseCases.Services
             if (salon.Cinema.CinemaActivities.Any(i => i.EndDate == null))
                 throw new NotAcceptableException("cinema is deactivated please check the cinema status");
 
-            MovieSansSalon movieSansSalon = MovieSansSalon.Create(movieId, salonId, sansId, adminGuid);
+            string premiereDatePersian = premiereDate.ToPersianDate();
+
+            MovieSansSalon movieSansSalon = MovieSansSalon.Create(movieId, salonId, sansId, adminGuid, adminFullName, premiereDate,                                                                     premiereDatePersian);
 
             _movieSansSalonRepository.Add(movieSansSalon);
             return Task.CompletedTask;

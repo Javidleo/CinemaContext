@@ -10,11 +10,11 @@ namespace Test.Unit.Tests
     public class CinemaActivityTests
     {
         private readonly CinemaActivityService _cinemaActivityService;
-        private readonly CinemaFakeReopsitory _cinemaFakeRepository;
+        private readonly CinemaFakeRepository _cinemaFakeRepository;
         private readonly CinemaActivityFakeRepository _cinemaActivityFakeRepository;
         public CinemaActivityTests()
         {
-            _cinemaFakeRepository = new CinemaFakeReopsitory();
+            _cinemaFakeRepository = new CinemaFakeRepository();
             _cinemaActivityFakeRepository = new CinemaActivityFakeRepository();
             _cinemaActivityService = new CinemaActivityService(_cinemaFakeRepository, _cinemaActivityFakeRepository);
         }

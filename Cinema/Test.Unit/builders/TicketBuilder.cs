@@ -9,6 +9,7 @@ namespace Test.Unit.builders
         private int _salonId = 1;
         private int _cinemaId = 1;
         private decimal _price = 1;
+        private int _movieSansSalonId = 1;
 
         public TicketBuilder withCustomerId(int customerId)
         {
@@ -30,6 +31,11 @@ namespace Test.Unit.builders
             _cinemaId = cinemaId;
             return this;
         }
+        public TicketBuilder WithMovieSansSalonId(int movieSansSalonId)
+        {
+            _movieSansSalonId = movieSansSalonId;
+            return this;
+        }
         public TicketBuilder WithPrice(decimal price)
         {
             _price = price;
@@ -37,6 +43,6 @@ namespace Test.Unit.builders
         }
 
         public Ticket Build()
-        => Ticket.Create(_customerId, _chairId, _salonId, _cinemaId, _price);
+        => Ticket.Create(_customerId, _chairId, _salonId, _cinemaId, _movieSansSalonId, _price);
     }
 }

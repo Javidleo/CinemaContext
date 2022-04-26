@@ -9,5 +9,6 @@ namespace UseCases.RepositoryContract
         void Add(MovieSansSalon obj);
         List<MovieSansSalon> FindOnScreenMovies(int movieId, int cityId, DateTime premiereDate);
         List<MovieSansSalon> FindOnScreenMovies(int movieId, int cityId);
+        bool DoesExist(int movieSansSalonId);
     }
 }

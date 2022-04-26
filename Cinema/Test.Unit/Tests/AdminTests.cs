@@ -14,14 +14,14 @@ namespace Test.Unit.Tests
     public class AdminTests
     {
         private readonly IAdminService _adminService;
-        private readonly CinemaFakeReopsitory _cinemaFakeRepository;
+        private readonly CinemaFakeRepository _cinemaFakeRepository;
         private readonly AdminFakeRepository _adminFakeRepository;
         private readonly AdminValidator _validator;
 
         public AdminTests()
         {
             _adminFakeRepository = new AdminFakeRepository();
-            _cinemaFakeRepository = new CinemaFakeReopsitory();
+            _cinemaFakeRepository = new CinemaFakeRepository();
             _adminService = new AdminService(_adminFakeRepository, _cinemaFakeRepository);
             _validator = new AdminValidator();
         }
