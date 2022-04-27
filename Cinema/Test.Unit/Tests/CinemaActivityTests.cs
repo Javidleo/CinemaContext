@@ -19,8 +19,9 @@ namespace Test.Unit.Tests
             _cinemaActivityFakeRepository = new CinemaActivityFakeRepository();
             _cinemaActivityService = new CinemaActivityService(_cinemaFakeRepository, _cinemaActivityFakeRepository);
         }
+
         [Fact]
-        public void DeactiveCinema_CheckForWorkingWell()
+        public void DeactivateCinema_CheckForWorkingWell()
         {
             var cinemaActivity = new CinemaActivityBuilder().Build();
             _cinemaFakeRepository.SetExistingId(cinemaActivity.CinemaId);
@@ -32,7 +33,7 @@ namespace Test.Unit.Tests
         }
 
         [Fact]
-        public void DeactiveCinema_CheckForInvalidCinemaId_ThrowsNotFoundException()
+        public void DeactivateCinema_CheckForInvalidCinemaId_ThrowsNotFoundException()
         {
             var cinemaActivity = new CinemaActivityBuilder().Build();
 
@@ -42,7 +43,7 @@ namespace Test.Unit.Tests
         }
 
         [Fact]
-        public void DeactiveCinema_CheckForEmptyAdminGuid_ThrowsNotAcceptableException()
+        public void DeactivateCinema_CheckForEmptyAdminGuid_ThrowsNotAcceptableException()
         {
             var cinemaActivity = new CinemaActivityBuilder().WithAdminGuid(Guid.Empty).Build();
             _cinemaFakeRepository.SetExistingId(cinemaActivity.CinemaId);
@@ -55,13 +56,13 @@ namespace Test.Unit.Tests
         }
 
         [Fact]
-        public void DeactiveCinema_CheckForNullAdminFullName_ThrowsNOtAcceptableException()
+        public void DeactivateCinema_CheckForNullAdminFullName_ThrowsNOtAcceptableException()
         {
             var cinemaActivity = new CinemaActivityBuilder().WithAdminFullName("").Build();
             _cinemaFakeRepository.SetExistingId(cinemaActivity.CinemaId);
 
-            void result() => _cinemaActivityService.Deactivate(
-                            cinemaActivity.CinemaId, cinemaActivity.Description, cinemaActivity.AdminGuid, cinemaActivity.AdminFullName);
+            void result() => _cinemaActivityService.Deactivate(cinemaActivity.CinemaId, cinemaActivity.Description,
+                             cinemaActivity.AdminGuid, cinemaActivity.AdminFullName);
 
             var exception = Assert.Throws<NotAcceptableException>(result);
             exception.Message.Should().Be("admin name is empty");

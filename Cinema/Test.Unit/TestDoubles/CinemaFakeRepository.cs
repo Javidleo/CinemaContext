@@ -4,8 +4,8 @@ namespace Test.Unit.TestDoubles
 {
     internal class CinemaFakeRepository : ICinemaRepository
     {
-        private int _existingId=-1;
-        public void SetExistingId(int id)=> _existingId = id;
+        private int _existingId = -1;
+        public void SetExistingId(int id) => _existingId = id;
 
         public bool DoesExist(int Id)
         {

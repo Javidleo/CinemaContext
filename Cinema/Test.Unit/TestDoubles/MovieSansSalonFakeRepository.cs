@@ -1,6 +1,7 @@
 ﻿using DomainModel.Domain;
 using System;
 using System.Collections.Generic;
+using Test.Unit.builders;
 using UseCases.RepositoryContract;
 
 namespace Test.Unit.TestDoubles
@@ -8,7 +9,7 @@ namespace Test.Unit.TestDoubles
     public class MovieSansSalonFakeRepository : IMovieSansSalonRepository
     {
         private int _existingId;
-        public void SetExistingId(int id)=> _existingId = id;
+        public void SetExistingId(int id) => _existingId = id;
 
         public void Add(MovieSansSalon obj)
         {
@@ -22,18 +23,14 @@ namespace Test.Unit.TestDoubles
         }
 
         public List<MovieSansSalon> FindOnScreenMovies(int movieId, int cityId, DateTime premiereDate)
-        {
-            throw new NotImplementedException();
-        }
+        => throw new NotImplementedException(); // use mock insted
 
         public List<MovieSansSalon> FindOnScreenMovies(int movieId, int cityId)
-        {
-            throw new NotImplementedException();
-        }
+        => throw new NotImplementedException(); // use mock insted
 
         public List<MovieSansSalon> GetAll()
         {
-            throw new NotImplementedException();
+            return new List<MovieSansSalon>() { new MovieSansSalonBuilder().Build() };
         }
     }
 }

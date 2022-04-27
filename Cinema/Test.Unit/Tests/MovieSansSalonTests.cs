@@ -1,5 +1,7 @@
 ﻿using DomainModel.Domain;
+using DomainModel.Validation;
 using FluentAssertions;
+using FluentValidation.TestHelper;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -15,7 +17,7 @@ namespace Test.Unit.Tests
     public class MovieSansSalonTests
     {
         private readonly MovieSansSalonService _service;
-
+        private readonly MovieSansSalonValidator _validator;
         private readonly MovieFakeRepository _movieFakeRepository;
         private readonly SnasFakeRepository _sansFakeRepository;
         private readonly MovieSansSalonFakeRepository _movieSansSalonFakeRepository;
@@ -28,7 +30,7 @@ namespace Test.Unit.Tests
             _sansFakeRepository = new SnasFakeRepository();
             _movieSansSalonFakeRepository = new MovieSansSalonFakeRepository();
             _service = new MovieSansSalonService(_movieFakeRepository, _salonMockRepository.Object, _sansFakeRepository, _movieSansSalonFakeRepository);
-
+            _validator = new MovieSansSalonValidator();
             _movieSansSalon = new MovieSansSalonBuilder().Build();
         }
 
@@ -62,6 +64,28 @@ namespace Test.Unit.Tests
             var result = service.Create(_movieSansSalon.MovieId, mockSalon.Id, _movieSansSalon.SansId, _movieSansSalon.AdminGuid, _movieSansSalon.AdminFullName, _movieSansSalon.PremiereDate);
 
             result.Status.ToString().Should().Be("RanToCompletion");
+        }
+
+        [Theory]
+        [InlineData("", "adminFullName is empty")]
+        [InlineData("admin!", "invalid adminFullName")]
+        [InlineData("admin123", "invalid adminFullName")]
+        public void MovieSanSalonValidation_CheckForAdminFullName_ThrowValidationExcetpion(string adminFullName , string exceptionMessage)
+        {
+            var movieSansSalon = new MovieSansSalonBuilder().WithAdminFullName(adminFullName).Build();
+            var result = _validator.TestValidate(movieSansSalon);
+            result.ShouldHaveValidationErrorFor(i => i.AdminFullName).WithErrorMessage(exceptionMessage);
+        }
+
+        [Theory]
+        [InlineData("12/31/9999")]
+        [InlineData("1/1/0001")]
+        public void MovieSansSalonValidtaion_CheckForAdminPremiereDate_ThrowValidationException(string date)
+        {
+            DateTime date1 = DateTime.Parse(date);
+            var movieSansSalon = new MovieSansSalonBuilder().WithPremiereDate(date1).Build();
+            var result = _validator.TestValidate(movieSansSalon);
+            result.ShouldHaveValidationErrorFor(i => i.PremiereDate);
         }
 
         [Fact]

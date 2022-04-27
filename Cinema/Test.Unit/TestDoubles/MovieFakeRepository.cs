@@ -7,7 +7,7 @@ namespace Test.Unit.TestDoubles
     {
         private int _existingId;
 
-        public void SetExistingId(int id)=> _existingId = id;
+        public void SetExistingId(int id) => _existingId = id;
 
         public void Add(Movie movie)
         {

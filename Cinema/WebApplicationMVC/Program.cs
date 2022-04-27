@@ -8,11 +8,9 @@ using UseCases.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services DI
 
 builder.Services.AddControllersWithViews();
-
-
 
 builder.Services.AddTransient<ITicketService, TicketService>();
 builder.Services.AddTransient<ICustomerService, CustomerService>();
@@ -32,8 +30,9 @@ builder.Services.AddTransient<IAdminRepository, AdminRepository>();
 builder.Services.AddTransient<IMovieSansSalonRepository, MovieSansSalonRepository>();
 // DbContext
 
-builder.Services.AddDbContext<CinemaContext>(options =>
-                            options.UseSqlServer("Server=;DESKTOP-DE1P6BADatabase=Cinema;Trusted_Connection=True;"));
+IConfiguration Configuration = new ConfigurationManager();
+builder.Services.AddDbContext<CinemaContext>(options=>
+                    options.UseSqlServer(Configuration.GetConnectionString("CinemaContext")));
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 

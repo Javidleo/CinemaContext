@@ -199,7 +199,7 @@ namespace Test.Unit.Tests
         }
 
         [Fact]
-        public void LoginAdmin_CheckForNotExistedUserName_ThorwsNotFoundException()
+        public void LoginAdmin_CheckForNonExisted_ThorwsNotFoundException()
         {
             var admin = new AdminBuilder().Build();
 

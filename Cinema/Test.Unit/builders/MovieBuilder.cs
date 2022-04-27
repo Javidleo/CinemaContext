@@ -11,7 +11,7 @@ namespace Test.Unit.builders
         private string? _name = "something";
         private string? _directorName = "ali";
         private string? _producerName = "reza";
-        private DateTime _publishDate = new DateTime(2020, 12, 3).Date;
+        private DateTime _publishDate = new DateTime(2020, 12, 3).Date;// a movie created in the past not now or future
         private string? _publishDatePersian = new DateTime(2020, 12, 3).ToPersianDate();
         private MovieActores _actor = new MovieActoresBuilder().Build();
 

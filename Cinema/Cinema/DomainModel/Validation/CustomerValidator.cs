@@ -5,10 +5,10 @@ namespace DomainModel.Validation
 {
     public class CustomerValidator : AbstractValidator<Customer>
     {
-        private readonly Base_Validation _base;
+        private readonly BaseValidation _base;
         public CustomerValidator()
         {
-            _base = new Base_Validation();
+            _base = new BaseValidation();
             
             RuleFor(i => i.Name).NotEmpty().WithMessage("name is empty").Matches(_base.Persian_English_WhiteSpaceRegex).WithMessage("invalid name");
             RuleFor(i => i.Family).NotEmpty().WithMessage("family is empty").Matches(_base.Persian_English_WhiteSpaceRegex).WithMessage("invalid family");

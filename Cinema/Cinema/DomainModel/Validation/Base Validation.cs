@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace DomainModel.Validation
 {
-    internal class Base_Validation
+    public class BaseValidation
     {
         public string Persian_English_Numbers_WhiteSpaceRegex = @"^[a-zA-Z\u0600-\u06FF\s\d]+$";
 
@@ -12,6 +12,8 @@ namespace DomainModel.Validation
         public string LowerCaseEnglish_NumbersRegex = @"^[a-z\d]+$";
 
         public string PersianDateRegex = @"^[1][1-4][0-9]{2}\/((0[1-6]\/(0[1-9]|[1-2][0-9]|3[0-1]))|(0[7-9]\/(0[1-9]|[1-2][0-9]|30))|(1[0-1]\/(0[1-9]|[1-2][0-9]|30))|(12\/(0[1-9]|[1-2][0-9])))";
+
+        public string EmailRegex = "^[a-z0-9+_.-]+@[a-zA-Z0-9.-]+$";
 
         public static bool CheckNationalCode(string nationalCode)
         {

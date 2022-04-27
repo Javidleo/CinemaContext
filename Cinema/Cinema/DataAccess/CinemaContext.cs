@@ -1,7 +1,6 @@
 ﻿using DataAccess.Mapping;
 using DomainModel.Domain;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace DataAccess
 {
@@ -25,14 +24,13 @@ namespace DataAccess
         public DbSet<City> City { get; set; }
         public DbSet<Province> Province { get; set; }
 
-        //public IConfigurationRoot Configuration { get; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=.;Database=Cinema;Trusted_Connection=True;");
+            base.OnConfiguring(optionsBuilder);
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Apply Mappings 
+            // Apply Mappings
             modelBuilder.ApplyConfiguration(new TicketMapping());
             modelBuilder.ApplyConfiguration(new ChairMapping());
             modelBuilder.ApplyConfiguration(new ChairActivityMapping());

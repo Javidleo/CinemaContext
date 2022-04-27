@@ -5,10 +5,10 @@ namespace DomainModel.Validation
 {
     public class MovieActoresValidator : AbstractValidator<MovieActores>
     {
-        private readonly Base_Validation _base;
+        private readonly BaseValidation _base;
         public MovieActoresValidator()
         {
-            _base = new Base_Validation();
+            _base = new BaseValidation();
 
             RuleFor(i => i.BaseMaleActorName).NotEmpty().WithMessage("baseMaleActorName is empty")
                                 .Matches(_base.Persian_English_WhiteSpaceRegex).WithMessage("invalid baseMaleActorName");

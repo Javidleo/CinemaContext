@@ -8,7 +8,7 @@ namespace Test.Unit.TestDoubles
         private int _existingId;
         private string? _existingEmail;
 
-        public void SetExistingId(int id)=> _existingId = id;
+        public void SetExistingId(int id) => _existingId = id;
         public void SetExistingEmail(string email) => _existingEmail = email;
 
         public void Add(Customer customer) { }

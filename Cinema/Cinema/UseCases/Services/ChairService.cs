@@ -16,21 +16,32 @@ namespace UseCases.Services
             _chairRepostiory = chairRepository;
             _salonRepostiory = salonRepository;
         }
-        public Task Create(int row, int count, int salonId)
+        public Task Create(int rows, int count, int salonId)
         {
             if (!_salonRepostiory.DoesExist(salonId))
                 throw new NotFoundException("salon not found");
 
-            int chairCount = row * count;
+            int chairCount = rows * count;
 
-            List<Chair> chairs = new List<Chair>();
+            List<Chair> chairList = new List<Chair>();
 
-            for (int i = 0; i < chairCount; i++)
+            byte number = 1;
+            byte row = 1;
+
+            for(int i =1; i <= chairCount; i++)
             {
-                
+                if (number > count)
+                {
+                    number = 1;
+                    row++;
+
+                }
+                var chair = Chair.Create(salonId, number, row);
+                chairList.Add(chair);
+                number++;
             }
 
-            _chairRepostiory.Add(chairs);
+            _chairRepostiory.Add(chairList);
             return Task.CompletedTask;
         }
     }

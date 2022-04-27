@@ -49,6 +49,6 @@ namespace Test.Unit.builders
         }
 
         public Admin Build()
-        => Admin.Create(_cinemaId, _name, _family, _nationalCode, _email,_userName, _password);
+        => Admin.Create(_cinemaId, _name, _family, _nationalCode, _email, _userName, _password);
     }
 }

@@ -9,7 +9,7 @@ namespace Test.Unit.builders
         private int _cinemaId = 1;
         private DateTime _startDate = DateTime.Now.Date;
         private string _persianStartDate = DateTime.Now.ToPersianDate();
-        private string _desceription = "new movie added by me ";
+        private string _desceription = "some problem in power";
         private Guid _adminGuid = Guid.NewGuid();
         private string _adminFullName = "javid";
 

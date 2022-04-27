@@ -6,10 +6,10 @@ namespace DomainModel.Validation
 {
     public class MovieValidator : AbstractValidator<Movie>
     {
-        private readonly Base_Validation _base;
+        private readonly BaseValidation _base;
         public MovieValidator()
         {
-            _base = new Base_Validation();
+            _base = new BaseValidation();
 
             RuleFor(i => i.AdminGuid).NotEqual(Guid.Empty).WithMessage("adminGuid is empty");
 

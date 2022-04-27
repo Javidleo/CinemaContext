@@ -12,7 +12,7 @@ namespace Test.Unit.TestDoubles
 
         public void SetExistingId(int id) => _existingid = id;
         public void SetExistingEmail(string email) => _existingEmail = email;
-        public void SetExistingUserName(string userName)=> _existingUserName = userName;
+        public void SetExistingUserName(string userName) => _existingUserName = userName;
 
 
         public bool DoesExist(int id)
@@ -29,7 +29,7 @@ namespace Test.Unit.TestDoubles
 
         public Admin FindByEmail(string email)
         {
-            if(email == _existingEmail) return new AdminBuilder().Build();
+            if (email == _existingEmail) return new AdminBuilder().Build();
             return null;
         }
     }

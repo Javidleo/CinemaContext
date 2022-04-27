@@ -33,7 +33,7 @@ namespace Test.Integration
         [Fact]
         public void CreateProvince()
         {
-            var province = Province.Create("reza");
+            var province = Province.Create("ahmad");
             _context.Province.Add(province);
             _context.SaveChanges();
 
