@@ -1,9 +1,6 @@
 using DataAccess;
 using DataAccess.Repository;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
-using System.Configuration;
 using UseCases.RepositoryContract;
 using UseCases.ServiceContract;
 using UseCases.Services;
@@ -37,10 +34,8 @@ builder.Services.AddTransient<IMovieSansSalonRepository, MovieSansSalonRepositor
 
 builder.Services.AddDbContext<CinemaContext>(options =>
                             options.UseSqlServer("Server=;DESKTOP-DE1P6BADatabase=Cinema;Trusted_Connection=True;"));
+
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-builder.Services.AddControllers().AddMvcOptions(i => i.Filters.Add(new AuthorizeFilter()));
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(i => i.LoginPath = ""); //adding login path later
 
 var app = builder.Build();
 

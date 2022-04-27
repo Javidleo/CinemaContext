@@ -8,7 +8,7 @@ namespace Test.Unit.builders
         private int _chairId = 1;
         private int _salonId = 1;
         private int _cinemaId = 1;
-        private decimal _price = 1;
+        private decimal _price = 1000;
         private int _movieSansSalonId = 1;
 
         public TicketBuilder withCustomerId(int customerId)

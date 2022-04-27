@@ -28,6 +28,7 @@ namespace DomainModel.Domain
 
         public virtual Sans Sans { get; private set; }
 
+        public MovieSansSalon() { }
         private MovieSansSalon(int movieId, int salonId, int sansId, Guid adminGuid, string adminFullName,DateTime premiereDate,
                                 string premeiereDatePersian)
         {

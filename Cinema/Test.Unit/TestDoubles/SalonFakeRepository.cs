@@ -6,7 +6,7 @@ namespace Test.Unit.TestDoubles
 {
     internal class SalonFakeRepository : ISalonRepository
     {
-        private int _existingId;
+        private int _existingId=-1;
 
         public void Add(Salon salon)
         {

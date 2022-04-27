@@ -31,5 +31,7 @@ namespace DataAccess.Repository
         public bool DoesExist(int Id)
         => _context.MovieSansSalon.Any(i => i.Id == Id);
 
+        public List<MovieSansSalon> GetAll()
+        => _context.MovieSansSalon.Include(i => i.Salon).ThenInclude(i => i.Cinema).ThenInclude(i => i.City).Include(i=> i.Sans).ToList();
     }
 }

@@ -15,6 +15,7 @@ namespace Test.Unit.Tests
     public class MovieSansSalonTests
     {
         private readonly MovieSansSalonService _service;
+
         private readonly MovieFakeRepository _movieFakeRepository;
         private readonly SalonFakeRepository _salonFakeRepository;
         private readonly SnasFakeRepository _sansFakeRepository;

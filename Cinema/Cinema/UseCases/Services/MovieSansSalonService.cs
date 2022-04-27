@@ -1,4 +1,5 @@
 ﻿using DomainModel.Domain;
+using DomainModel.Validation;
 using NEGSO.Utilities;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace UseCases.Services
         private readonly ISalonRepository _salonRepository;
         private readonly ISansRepository _sansRepository;
         private readonly IMovieSansSalonRepository _movieSansSalonRepository;
+        private readonly MovieSansSalonValidator _validator;
 
         public MovieSansSalonService(IMovieRepository movieRepository, ISalonRepository salonRepository, ISansRepository sansRepository
                                  , IMovieSansSalonRepository movieSansSalonRepository)
@@ -25,19 +27,16 @@ namespace UseCases.Services
             _salonRepository = salonRepository;
             _sansRepository = sansRepository;
             _movieSansSalonRepository = movieSansSalonRepository;
+            _validator = new MovieSansSalonValidator();
         }
 
         public Task Create(int movieId, int salonId, int sansId, Guid adminGuid,string adminFullName,DateTime premiereDate)
         {
-            if (!_movieRepository.DoesExist(movieId))
+            if (! _movieRepository.DoesExist(movieId))
                 throw new NotFoundException("movie not found");
 
-            if (!_sansRepository.DoesExist(sansId))
+            if (! _sansRepository.DoesExist(sansId))
                 throw new NotFoundException("sans not found");
-
-            // this entity just need to validate guid so we just write two lines of code insted of validation class
-            if (adminGuid == Guid.Empty)
-                throw new NotAcceptableException("invalid adminId");
 
             var salon = _salonRepository.FindWithParents(salonId);
 
@@ -50,6 +49,9 @@ namespace UseCases.Services
             string premiereDatePersian = premiereDate.ToPersianDate();
 
             MovieSansSalon movieSansSalon = MovieSansSalon.Create(movieId, salonId, sansId, adminGuid, adminFullName, premiereDate,                                                                     premiereDatePersian);
+
+            if (!_validator.Validate(movieSansSalon).IsValid)
+                throw new NotAcceptableException("invalid movieSansSalon");
 
             _movieSansSalonRepository.Add(movieSansSalon);
             return Task.CompletedTask;
@@ -79,15 +81,34 @@ namespace UseCases.Services
             var movies = _movieSansSalonRepository.FindOnScreenMovies(movieId, cityId);
 
             var result = new List<GetMovieByCityViewModel>();
-            var viewModelItem = new GetMovieByCityViewModel();
-
+            
             foreach (var movie in movies)
             {
+                var viewModelItem = new GetMovieByCityViewModel();
+
                 viewModelItem.CinemaName = movie.Salon.Cinema.Name;
                 viewModelItem.CinemaAddress = movie.Salon.Cinema.Address;
                 viewModelItem.SansName = movie.Sans.Name;
                 viewModelItem.TicketPrice = movie.Salon.Cinema.TicketPrice;
 
+                result.Add(viewModelItem);
+            }
+            return Task.FromResult(result);
+        }
+
+        public Task<List<GetMovieByCityViewModel>> GetAll()
+        {
+            var movies = _movieSansSalonRepository.GetAll();
+            var result = new List<GetMovieByCityViewModel>();
+
+            foreach(var movie in movies)
+            {
+                var viewModelItem = new GetMovieByCityViewModel();
+
+                viewModelItem.CinemaName = movie.Salon.Cinema.Name;
+                viewModelItem.CinemaAddress = movie.Salon.Cinema.Address;
+                viewModelItem.SansName = movie.Sans.Name;
+                viewModelItem.TicketPrice = movie.Salon.Cinema.TicketPrice;
                 result.Add(viewModelItem);
             }
             return Task.FromResult(result);

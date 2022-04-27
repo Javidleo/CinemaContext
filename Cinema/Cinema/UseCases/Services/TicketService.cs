@@ -37,8 +37,8 @@ namespace UseCases.Services
 
             var chairs = _chairRepository.FindBySalon(salonId);
 
-            if (chairs is null)
-                throw new NotFoundException("invalid salon");
+            if (chairs.Count is 0)
+                throw new NotAcceptableException("invalid salon");
 
             List<Ticket> ticketList = new List<Ticket>();
 

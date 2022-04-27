@@ -35,6 +35,9 @@ namespace WebApplicationMVC.Middleware
                 case ConflictException:
                     await SetException(httpContext, StatusCodes.Status409Conflict, exception.Message);
                     break;
+                case InvalidOperationException:
+                    await SetException(httpContext, StatusCodes.Status500InternalServerError, "Error in Server");
+                    break;
             }
         }
 

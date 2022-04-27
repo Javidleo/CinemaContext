@@ -30,5 +30,10 @@ namespace Test.Unit.TestDoubles
         {
             throw new NotImplementedException();
         }
+
+        public List<MovieSansSalon> GetAll()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

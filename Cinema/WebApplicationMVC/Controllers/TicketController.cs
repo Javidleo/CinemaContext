@@ -3,17 +3,14 @@ using UseCases.ServiceContract;
 
 namespace WebApplicationMVC.Controllers
 {
-    public class TicketController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class TicketController : ControllerBase
     {
         private readonly ITicketService _ticketService;
         public TicketController(ITicketService ticketService)
         {
             _ticketService = ticketService;
-        }
-
-        public IActionResult Index()
-        {
-            return View();
         }
 
         [HttpPost]
