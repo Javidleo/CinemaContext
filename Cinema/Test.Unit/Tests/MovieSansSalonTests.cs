@@ -17,23 +17,25 @@ namespace Test.Unit.Tests
         private readonly MovieSansSalonService _service;
 
         private readonly MovieFakeRepository _movieFakeRepository;
-        private readonly SalonFakeRepository _salonFakeRepository;
         private readonly SnasFakeRepository _sansFakeRepository;
         private readonly MovieSansSalonFakeRepository _movieSansSalonFakeRepository;
+        private readonly Mock<ISalonRepository> _salonMockRepository;
+        private MovieSansSalon _movieSansSalon;
         public MovieSansSalonTests()
         {
             _movieFakeRepository = new MovieFakeRepository();
-            _salonFakeRepository = new SalonFakeRepository();
+            _salonMockRepository = new Mock<ISalonRepository>();
             _sansFakeRepository = new SnasFakeRepository();
             _movieSansSalonFakeRepository = new MovieSansSalonFakeRepository();
-            _service = new MovieSansSalonService(_movieFakeRepository, _salonFakeRepository, _sansFakeRepository, _movieSansSalonFakeRepository);
+            _service = new MovieSansSalonService(_movieFakeRepository, _salonMockRepository.Object, _sansFakeRepository, _movieSansSalonFakeRepository);
+
+            _movieSansSalon = new MovieSansSalonBuilder().Build();
         }
 
-        public Salon CreateMovieSansSalon_MockSetup()
+        public Salon Salon_MockSetup()
         {
             var cinema = new CinemaBuilder().Build();
             var cinemaActivity = new CinemaActivityBuilder().Build();
-            cinemaActivity.Reactivation(); // this method will set endDate and endDatePersian for cinemaActivity
 
             var cinemaActivities = new List<CinemaActivity>() { cinemaActivity };
 
@@ -47,28 +49,25 @@ namespace Test.Unit.Tests
         [Fact]
         public void CreateMovieSansSalon_CheckForWorkingWell()
         {
-            var mockSalon = CreateMovieSansSalon_MockSetup();
+            var mockSalon = Salon_MockSetup();
+            mockSalon.Cinema.CinemaActivities[0].Reactivation(); // because I know List count is 1;
 
-            // obj is a MovieSansSalon we use obj because its a short name
-            var obj = new MovieSansSalonBuilder().Build();
-            _movieFakeRepository.SetExistingId(obj.MovieId);
-            _sansFakeRepository.SetExistingId(obj.SansId);
+            _movieFakeRepository.SetExistingId(_movieSansSalon.MovieId);
+            _sansFakeRepository.SetExistingId(_movieSansSalon.SansId);
+            //salon repository setup
+            _salonMockRepository.Setup(i => i.FindWithParents(mockSalon.Id)).Returns(mockSalon);
 
-            var salonMockRepository = new Mock<ISalonRepository>();
-            salonMockRepository.Setup(i => i.FindWithParents(mockSalon.Id)).Returns(mockSalon);
+            var service = new MovieSansSalonService(_movieFakeRepository, _salonMockRepository.Object, _sansFakeRepository, _movieSansSalonFakeRepository);
 
-            var service = new MovieSansSalonService(_movieFakeRepository, salonMockRepository.Object, _sansFakeRepository, _movieSansSalonFakeRepository);
+            var result = service.Create(_movieSansSalon.MovieId, mockSalon.Id, _movieSansSalon.SansId, _movieSansSalon.AdminGuid, _movieSansSalon.AdminFullName, _movieSansSalon.PremiereDate);
 
-            var result = service.Create(obj.MovieId, mockSalon.Id, obj.SansId, obj.AdminGuid, obj.AdminFullName, obj.PremiereDate);
             result.Status.ToString().Should().Be("RanToCompletion");
         }
 
         [Fact]
         public void CreateMovieSansSalon_CheckForNonExistMovieid_ThrowNotFoundException()
         {
-            var obj = new MovieSansSalonBuilder().Build();
-
-            void result() => _service.Create(obj.MovieId, obj.SalonId, obj.SansId, obj.AdminGuid, obj.AdminFullName, obj.PremiereDate);
+            void result() => _service.Create(_movieSansSalon.MovieId, _movieSansSalon.SalonId, _movieSansSalon.SansId, _movieSansSalon.AdminGuid, _movieSansSalon.AdminFullName, _movieSansSalon.PremiereDate);
 
             var exception = Assert.Throws<NotFoundException>(result);
             exception.Message.Should().Be("movie not found");
@@ -77,10 +76,9 @@ namespace Test.Unit.Tests
         [Fact]
         public void CreateMovieSansSalon_CheckForNonExistingSansId_ThrowsNotFoundException()
         {
-            var obj = new MovieSansSalonBuilder().Build();
-            _movieFakeRepository.SetExistingId(obj.MovieId);
+            _movieFakeRepository.SetExistingId(_movieSansSalon.MovieId);
 
-            void result() => _service.Create(obj.MovieId, obj.SalonId, obj.SansId, obj.AdminGuid, obj.AdminFullName, obj.PremiereDate);
+            void result() => _service.Create(_movieSansSalon.MovieId, _movieSansSalon.SalonId, _movieSansSalon.SansId, _movieSansSalon.AdminGuid, _movieSansSalon.AdminFullName, _movieSansSalon.PremiereDate);
 
             var exception = Assert.Throws<NotFoundException>(result);
             exception.Message.Should().Be("sans not found");
@@ -90,54 +88,52 @@ namespace Test.Unit.Tests
         [Fact]
         public void CreateMovieSansSalon_CheckForEmptyGuid_ThrowsNotAcceptableException()
         {
+            var mockSalon = Salon_MockSetup();
+            mockSalon.Cinema.CinemaActivities[0].Reactivation();// becaues i know List count is 1;
+
             var obj = new MovieSansSalonBuilder().WithAdminGuid(Guid.Empty).Build();
 
             _movieFakeRepository.SetExistingId(obj.MovieId);
             _sansFakeRepository.SetExistingId(obj.SansId);
 
-            void result() => _service.Create(obj.MovieId, obj.SalonId, obj.SansId, obj.AdminGuid, obj.AdminFullName, obj.PremiereDate);
-            var exception =Assert.Throws<NotAcceptableException>(result);
-            exception.Message.Should().Be("invalid adminId");
+            _salonMockRepository.Setup(i => i.FindWithParents(mockSalon.Id)).Returns(mockSalon);
+
+            var service = new MovieSansSalonService(_movieFakeRepository, _salonMockRepository.Object, _sansFakeRepository, _movieSansSalonFakeRepository);
+
+            void result() => service.Create(obj.MovieId, mockSalon.Id, obj.SansId, obj.AdminGuid, obj.AdminFullName, obj.PremiereDate);
+
+            var exception = Assert.Throws<NotAcceptableException>(result);
+            exception.Message.Should().Be("invalid movieSansSalon");
         }
 
         [Fact]
         public void CreateMovieSansSalon_CheckForInvalidSalonId_ThrowsNotFoundException()
         {
-            var obj = new MovieSansSalonBuilder().Build();
+            _movieFakeRepository.SetExistingId(_movieSansSalon.MovieId);
+            _sansFakeRepository.SetExistingId(_movieSansSalon.SansId);
 
-            _movieFakeRepository.SetExistingId(obj.MovieId);
-            _sansFakeRepository.SetExistingId(obj.SansId);
+            void result() => _service.Create(_movieSansSalon.MovieId, _movieSansSalon.SalonId, _movieSansSalon.SansId, _movieSansSalon.AdminGuid, _movieSansSalon.AdminFullName, _movieSansSalon.PremiereDate);
 
-            void result() => _service.Create(obj.MovieId, obj.SalonId, obj.SansId, obj.AdminGuid, obj.AdminFullName, obj.PremiereDate);
-            Assert.Throws<NotFoundException>(result);
+            var exception = Assert.Throws<NotFoundException>(result);
+            exception.Message.Should().Be("salon not found");
         }
 
         [Fact]
         public void CreateMovieSansSalon_CheckForDeactivatedCienam_ThrowsNotAcceptableException()
         {
-            var obj = new MovieSansSalonBuilder().Build();
+            var mockSalon = Salon_MockSetup();
 
-            _movieFakeRepository.SetExistingId(obj.MovieId);
-            _sansFakeRepository.SetExistingId(obj.SansId);
+            _movieFakeRepository.SetExistingId(_movieSansSalon.MovieId);
+            _sansFakeRepository.SetExistingId(_movieSansSalon.SansId);
 
-            var mockSalon = new Mock<Salon>();
-            var cinema = new CinemaBuilder().Build();
-            var cinemaActivity = new List<CinemaActivity>() { new CinemaActivityBuilder().Build() };
+            _salonMockRepository.Setup(i => i.FindWithParents(mockSalon.Id)).Returns(mockSalon);
 
-            mockSalon.Setup(i => i.Cinema).Returns(cinema);
-            mockSalon.Setup(i => i.Cinema.CinemaActivities).Returns(cinemaActivity);
-
-            var mockSalonRepository = new Mock<ISalonRepository>();
-            mockSalonRepository.Setup(i => i.FindWithParents(mockSalon.Object.Id)).Returns(mockSalon.Object);
-
-            var service = new MovieSansSalonService(_movieFakeRepository, mockSalonRepository.Object, _sansFakeRepository, _movieSansSalonFakeRepository);
-
-            void result() => service.Create(obj.MovieId, mockSalon.Object.Id, obj.SansId, obj.AdminGuid, obj.AdminFullName, obj.PremiereDate);
+            void result() => _service.Create(_movieSansSalon.MovieId, mockSalon.Id, _movieSansSalon.SansId, _movieSansSalon.AdminGuid, _movieSansSalon.AdminFullName, _movieSansSalon.PremiereDate);
 
             var exception = Assert.Throws<NotAcceptableException>(result);
             exception.Message.Should().Be("cinema is deactivated please check the cinema status");
         }
-        
+
 
     }
 }

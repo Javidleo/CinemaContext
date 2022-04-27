@@ -1,4 +1,5 @@
-﻿using UseCases.Exceptions;
+﻿using Microsoft.Data.SqlClient;
+using UseCases.Exceptions;
 
 namespace WebApplicationMVC.Middleware
 {
@@ -35,8 +36,11 @@ namespace WebApplicationMVC.Middleware
                 case ConflictException:
                     await SetException(httpContext, StatusCodes.Status409Conflict, exception.Message);
                     break;
-                case InvalidOperationException:
-                    await SetException(httpContext, StatusCodes.Status500InternalServerError, "Error in Server");
+                case SqlException:
+                    await SetException(httpContext, StatusCodes.Status500InternalServerError, "DataBase Error");
+                    break;
+                default:
+                    await SetException(httpContext, StatusCodes.Status500InternalServerError, exception.Message);
                     break;
             }
         }

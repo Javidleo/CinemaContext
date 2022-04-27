@@ -17,6 +17,7 @@ namespace WebApplicationMVC.Controllers
         public async Task<IActionResult> Post(int? customerId, int cinemaId, int salonId, int count, int movieSansSalonId, decimal ticketPrice)
         {
             await _ticketService.Create(customerId, cinemaId, salonId, count, movieSansSalonId, ticketPrice);
+            // work on ticketOutPut Later.....
 
             return Ok();
         }

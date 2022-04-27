@@ -9,9 +9,9 @@ namespace Test.Unit.builders
         private int _salonId = 1;
         private int _sansId = 1;
         private Guid _adminGuid = Guid.NewGuid();
-        private string _adminFullName = "javid";
+        private string _adminFullName = "javid hasani";
         private DateTime _premiereDate = DateTime.Now.Date;
-        private string _premiereDatePersian = "11/12/1399";
+        private string _premiereDatePersian = "1399/11/12";
 
         public MovieSansSalonBuilder WithMovieId(int movieId)
         {

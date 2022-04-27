@@ -15,8 +15,8 @@ namespace DomainModel.Validation
                     .Matches(_base.Persian_English_WhiteSpaceRegex).WithMessage("invalid adminFullName");
 
             RuleFor(i => i.AdminGuid).NotEqual(Guid.Empty).WithMessage("invalid adminGuid");
-            RuleFor(i => i.PremiereDate).NotEqual(DateTime.MinValue).NotEqual(DateTime.MaxValue).WithMessage("invalid premiereDate");
-            RuleFor(i => i.PremiereDatePersian).Matches(_base.PersianDateRegex).WithMessage("invalid persianDate");
+            RuleFor(i => i.PremiereDate).NotEqual(DateTime.MinValue).NotEqual(DateTime.MaxValue).WithMessage("invalid Date");
+            RuleFor(i => i.PremiereDatePersian).Matches(_base.PersianDateRegex);
         }
     }
 }

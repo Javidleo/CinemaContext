@@ -41,7 +41,7 @@ namespace UseCases.Services
             var salon = _salonRepository.FindWithParents(salonId);
 
             if (salon is null)
-                throw new NotFoundException("slon not found");
+                throw new NotFoundException("salon not found");
 
             if (salon.Cinema.CinemaActivities.Any(i => i.EndDate == null))
                 throw new NotAcceptableException("cinema is deactivated please check the cinema status");

@@ -14,7 +14,7 @@ namespace WebApplicationMVC.Controllers
         }
 
         [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAll() 
+        public async Task<IActionResult> GetAll()
         {
             var result = await _movieSansSalonService.GetAll();
             return Ok(result);
