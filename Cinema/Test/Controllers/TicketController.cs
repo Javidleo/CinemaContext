@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Test.DTO;
 using UseCases.ServiceContract;
-using WebApplicationMVC.DTO;
 
-namespace WebApplicationMVC.Controllers
+
+namespace Test.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

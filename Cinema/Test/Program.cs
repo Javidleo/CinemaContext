@@ -5,13 +5,11 @@ using UseCases.RepositoryContract;
 using UseCases.ServiceContract;
 using UseCases.Services;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services DI
+// Add services to the container.
 
 builder.Services.AddControllers();
-
 builder.Services.AddTransient<ITicketService, TicketService>();
 builder.Services.AddTransient<ICustomerService, CustomerService>();
 builder.Services.AddTransient<IAdminService, AdminService>();
@@ -30,38 +28,30 @@ builder.Services.AddTransient<IAdminRepository, AdminRepository>();
 builder.Services.AddTransient<IMovieSansSalonRepository, MovieSansSalonRepository>();
 // DbContext
 
-IConfiguration Configuration = new ConfigurationManager();
-builder.Services.AddDbContext<CinemaContext>(options=>
-                    options.UseSqlServer(Configuration.GetConnectionString("CinemaContext")));
+//IConfiguration Configuration = new ConfigurationManager();
+//builder.Services.AddDbContext<CinemaContext>(options =>
+//                    options.UseSqlServer(Configuration.GetConnectionString("CinemaContext")));
+builder.Services.AddDbContext<CinemaContext>(option => option.UseSqlServer("Server=.;Database=Cinema;Trusted_Connection=True;"));
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseSwagger();
-    app.UseSwaggerUI(options =>
-    {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-        options.RoutePrefix = string.Empty;
-    });
-    app.UseHsts();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
-
-app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "/swagger/v1/swagger.json");
+app.MapControllers();
 
 app.Run();
