@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Cinema\DataAccess\DataAccess.csproj" />
     <ProjectReference Include="..\Cinema\UseCases\UseCases.csproj" />
   </ItemGroup>
 
@@ -31,6 +32,10 @@
     <Reference Include="NEGSO.Utilities">
       <HintPath>..\Cinema\NEGSO.Utilities.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-﻿namespace Test.DTO
+﻿namespace CinemaAPI.DTO
 {
     public class CreateTicketDTO
     {

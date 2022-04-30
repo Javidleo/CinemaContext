@@ -1,6 +1,7 @@
+using CinemaAPI;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Test.Controllers
+namespace CinemaAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]

@@ -11,7 +11,7 @@ namespace Test.Unit.builders
         private string _persianStartDate = DateTime.Now.ToPersianDate();
         private string _desceription = "some problem in power";
         private Guid _adminGuid = Guid.NewGuid();
-        private string _adminFullName = "javid";
+        private string _adminFullName = "javid hasani";
 
         public CinemaActivityBuilder WithCinemaId(int id)
         {

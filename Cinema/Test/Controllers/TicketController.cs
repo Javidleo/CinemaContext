@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Test.DTO;
+﻿using CinemaAPI.DTO;
+using Microsoft.AspNetCore.Mvc;
 using UseCases.ServiceContract;
 
 
-namespace Test.Controllers
+namespace CinemaAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

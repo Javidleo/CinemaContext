@@ -1,4 +1,4 @@
-namespace Test
+namespace CinemaAPI
 {
     public class WeatherForecast
     {

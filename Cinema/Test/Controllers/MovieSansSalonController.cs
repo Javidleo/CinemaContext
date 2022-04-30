@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using UseCases.ServiceContract;
 
-namespace Test.Controllers
+namespace CinemaAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

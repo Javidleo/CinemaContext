@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Test.Controllers
+namespace CinemaAPI.Controllers
 {
     public class Test : Controller
     {

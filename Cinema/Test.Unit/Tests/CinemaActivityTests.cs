@@ -1,4 +1,6 @@
-﻿using FluentAssertions;
+﻿using DomainModel.Validation;
+using FluentAssertions;
+using FluentValidation.TestHelper;
 using System;
 using Test.Unit.builders;
 using Test.Unit.TestDoubles;
@@ -11,6 +13,7 @@ namespace Test.Unit.Tests
     public class CinemaActivityTests
     {
         private readonly CinemaActivityService _cinemaActivityService;
+        private readonly CinemaActivityValidator _validator;
         private readonly CinemaFakeRepository _cinemaFakeRepository;
         private readonly CinemaActivityFakeRepository _cinemaActivityFakeRepository;
         public CinemaActivityTests()
@@ -18,6 +21,59 @@ namespace Test.Unit.Tests
             _cinemaFakeRepository = new CinemaFakeRepository();
             _cinemaActivityFakeRepository = new CinemaActivityFakeRepository();
             _cinemaActivityService = new CinemaActivityService(_cinemaFakeRepository, _cinemaActivityFakeRepository);
+            _validator = new CinemaActivityValidator();
+        }
+
+        [Theory]
+        [InlineData("", "adminFullName is empty")]
+        [InlineData("fs@fr", "invalid adminFullName")]
+        [InlineData("fer11 , ", "invalid adminFullName")]
+        public void CinemaActivityValidation_CheckForAdminFullName_ThrowValidationException(string adminFullName, string exceptionMessage)
+        {
+            var cinemaActivity = new CinemaActivityBuilder().WithAdminFullName(adminFullName).Build();
+
+            var result = _validator.TestValidate(cinemaActivity);
+            result.ShouldHaveValidationErrorFor(i => i.AdminFullName).WithErrorMessage(exceptionMessage);
+        }
+
+        [Fact]
+        public void CinemaActivityValidation_CheckForEmptyAdminGuid_ThrowValidationException()
+        {
+            var cinemaActivity = new CinemaActivityBuilder().WithAdminGuid(Guid.Empty).Build();
+
+            var result = _validator.TestValidate(cinemaActivity);
+            result.ShouldHaveValidationErrorFor(i => i.AdminGuid).WithErrorMessage("adminGuid is empty");
+        }
+
+        [Theory]
+        [InlineData("", "startDatePersian is empty")]
+        [InlineData("1222.33.22", "invalid startDatePersian")]
+        [InlineData("33/1231/12", "invalid startDatePersian")]
+        [InlineData("11/11/11", "invalid startDatePersian")]
+        public void CinemaActivityValidation_CheckForStartDatePersian_ThrowValidtaionException(string startDate, string excetpionMessage)
+        {
+            var cinemaActivity = new CinemaActivityBuilder().WithPersianStartDate(startDate).Build();
+
+            var result = _validator.TestValidate(cinemaActivity);
+            result.ShouldHaveValidationErrorFor(i => i.StartDatePersian).WithErrorMessage(excetpionMessage);
+        }
+
+        [Fact]
+        public void CinemaActivityValidation_CheckForStartDateInMaxValue_ThrowValidationException()
+        {
+            var cinemaActivity = new CinemaActivityBuilder().WithStartDate(DateTime.MaxValue).Build();
+
+            var result = _validator.TestValidate(cinemaActivity);
+            result.ShouldHaveValidationErrorFor(i => i.StartDate).WithErrorMessage("invalid startDate");
+        }
+
+        [Fact]
+        public void CinemaActivityValidation_CheckForStartDateInMinValue_ThrowValidationException()
+        {
+            var cinemaActivity = new CinemaActivityBuilder().WithStartDate(DateTime.MinValue).Build();
+
+            var result = _validator.TestValidate(cinemaActivity);
+            result.ShouldHaveValidationErrorFor(i => i.StartDate).WithErrorMessage("invalid startDate");
         }
 
         [Fact]
@@ -41,32 +97,5 @@ namespace Test.Unit.Tests
                             cinemaActivity.CinemaId, cinemaActivity.Description, cinemaActivity.AdminGuid, cinemaActivity.AdminFullName);
             Assert.Throws<NotFoundException>(result);
         }
-
-        [Fact]
-        public void DeactivateCinema_CheckForEmptyAdminGuid_ThrowsNotAcceptableException()
-        {
-            var cinemaActivity = new CinemaActivityBuilder().WithAdminGuid(Guid.Empty).Build();
-            _cinemaFakeRepository.SetExistingId(cinemaActivity.CinemaId);
-
-            void result() => _cinemaActivityService.Deactivate(
-                            cinemaActivity.CinemaId, cinemaActivity.Description, cinemaActivity.AdminGuid, cinemaActivity.AdminFullName);
-
-            var exception = Assert.Throws<NotAcceptableException>(result);
-            exception.Message.Should().Be("invalid adminId");
-        }
-
-        [Fact]
-        public void DeactivateCinema_CheckForNullAdminFullName_ThrowsNOtAcceptableException()
-        {
-            var cinemaActivity = new CinemaActivityBuilder().WithAdminFullName("").Build();
-            _cinemaFakeRepository.SetExistingId(cinemaActivity.CinemaId);
-
-            void result() => _cinemaActivityService.Deactivate(cinemaActivity.CinemaId, cinemaActivity.Description,
-                             cinemaActivity.AdminGuid, cinemaActivity.AdminFullName);
-
-            var exception = Assert.Throws<NotAcceptableException>(result);
-            exception.Message.Should().Be("admin name is empty");
-        }
-
     }
 }
