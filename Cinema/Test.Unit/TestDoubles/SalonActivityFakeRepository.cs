@@ -3,9 +3,9 @@ using UseCases.RepositoryContract;
 
 namespace Test.Unit.TestDoubles
 {
-    public class CinemaActivityFakeRepository : ICinemaActivityRepository
+    internal class SalonActivityFakeRepository : ISalonActivityRepository
     {
-        public void Add(CinemaActivity cinemaActivity)
+        public void Add(SalonActivity salonActivity)
         {
 
         }

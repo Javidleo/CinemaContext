@@ -1,4 +1,5 @@
 ﻿using DomainModel.Domain;
+using System;
 using System.Linq;
 using UseCases.RepositoryContract;
 
@@ -12,7 +13,10 @@ namespace DataAccess.Repository
 
         public bool DoesExist(int id)
         => _context.Admin.Any(i => i.Id == id);
-        
+
+        public bool DoesExist(Guid adminGuid)
+        => _context.Admin.Any(i => i.AdminGuid == adminGuid);
+
         public Admin FindByEmail(string email)
         => _context.Admin.FirstOrDefault(i => i.Email == email);
 

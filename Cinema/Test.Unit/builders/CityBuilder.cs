@@ -1,6 +1,6 @@
 ﻿using DomainModel.Domain;
 
-namespace Test.Unit.Tests
+namespace Test.Unit.builders
 {
     internal class CityBuilder
     {
@@ -14,7 +14,7 @@ namespace Test.Unit.Tests
         }
         public CityBuilder WithProvinceId(int id)
         {
-            this._provinceId = id;
+            _provinceId = id;
             return this;
         }
         public City Build()

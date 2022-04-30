@@ -12,15 +12,18 @@ namespace Test.Unit.Tests
 {
     public class CinemaActivityTests
     {
-        private readonly CinemaActivityService _cinemaActivityService;
+        private readonly CinemaActivityService _service;
         private readonly CinemaActivityValidator _validator;
         private readonly CinemaFakeRepository _cinemaFakeRepository;
+        private readonly AdminFakeRepository _adminFakeRepository;
         private readonly CinemaActivityFakeRepository _cinemaActivityFakeRepository;
         public CinemaActivityTests()
         {
             _cinemaFakeRepository = new CinemaFakeRepository();
             _cinemaActivityFakeRepository = new CinemaActivityFakeRepository();
-            _cinemaActivityService = new CinemaActivityService(_cinemaFakeRepository, _cinemaActivityFakeRepository);
+            _adminFakeRepository = new AdminFakeRepository();
+            _service = new CinemaActivityService(_cinemaFakeRepository, _cinemaActivityFakeRepository, _adminFakeRepository);
+
             _validator = new CinemaActivityValidator();
         }
 
@@ -81,9 +84,9 @@ namespace Test.Unit.Tests
         {
             var cinemaActivity = new CinemaActivityBuilder().Build();
             _cinemaFakeRepository.SetExistingId(cinemaActivity.CinemaId);
+            _adminFakeRepository.SetExistingGuid(cinemaActivity.AdminGuid);
 
-            var result = _cinemaActivityService.Deactivate(
-                        cinemaActivity.CinemaId, cinemaActivity.Description, cinemaActivity.AdminGuid, cinemaActivity.AdminFullName);
+            var result = _service.Deactivate(cinemaActivity.CinemaId, cinemaActivity.Description,cinemaActivity.StartDate, cinemaActivity.AdminGuid, cinemaActivity.AdminFullName);
 
             result.Status.ToString().Should().Be("RanToCompletion");
         }
@@ -93,9 +96,22 @@ namespace Test.Unit.Tests
         {
             var cinemaActivity = new CinemaActivityBuilder().Build();
 
-            void result() => _cinemaActivityService.Deactivate(
-                            cinemaActivity.CinemaId, cinemaActivity.Description, cinemaActivity.AdminGuid, cinemaActivity.AdminFullName);
-            Assert.Throws<NotFoundException>(result);
+            void result() => _service.Deactivate(cinemaActivity.CinemaId, cinemaActivity.Description, cinemaActivity.StartDate, cinemaActivity.AdminGuid, cinemaActivity.AdminFullName);
+
+            var exception = Assert.Throws<NotFoundException>(result);
+            exception.Message.Should().Be("cinema not found");
+        }
+
+        [Fact]
+        public void DeactivateCinema_CheckForInvalidAdminGuid_ThrowsNotFoundException()
+        {
+            var cinemaActivity = new CinemaActivityBuilder().Build();
+            _cinemaFakeRepository.SetExistingId(cinemaActivity.CinemaId);
+
+            void result() => _service.Deactivate(cinemaActivity.CinemaId, cinemaActivity.Description, cinemaActivity.StartDate, cinemaActivity.AdminGuid, cinemaActivity.AdminFullName);
+
+            var exception = Assert.Throws<NotFoundException>(result);
+            exception.Message.Should().Be("admin not found");
         }
     }
 }

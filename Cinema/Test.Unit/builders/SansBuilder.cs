@@ -1,6 +1,6 @@
 ﻿using DomainModel.Domain;
 
-namespace Test.Unit.Tests
+namespace Test.Unit.builders
 {
     internal class SansBuilder
     {

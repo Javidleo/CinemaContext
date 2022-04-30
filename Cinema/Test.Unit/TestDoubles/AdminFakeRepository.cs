@@ -1,4 +1,5 @@
 ﻿using DomainModel.Domain;
+using System;
 using Test.Unit.builders;
 using UseCases.RepositoryContract;
 
@@ -7,17 +8,24 @@ namespace Test.Unit.TestDoubles
     internal class AdminFakeRepository : IAdminRepository
     {
         private int _existingid;
+        private Guid _existingGuid;
         private string? _existingEmail;
         private string? _existingUserName;
 
         public void SetExistingId(int id) => _existingid = id;
+        public void SetExistingGuid(Guid adminGuid)=> _existingGuid = adminGuid;
         public void SetExistingEmail(string email) => _existingEmail = email;
         public void SetExistingUserName(string userName) => _existingUserName = userName;
-
 
         public bool DoesExist(int id)
         {
             if (id == _existingid) return true;
+            return false;
+        }
+
+        public bool DoesExist(Guid adminGuid)
+        {
+            if (adminGuid == _existingGuid) return true;
             return false;
         }
 

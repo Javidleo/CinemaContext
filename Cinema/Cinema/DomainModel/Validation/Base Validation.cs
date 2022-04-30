@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace DomainModel.Validation
 {
@@ -57,6 +58,14 @@ namespace DomainModel.Validation
             }
         }
 
+        public static bool CheckDate(DateTime date)
+        {
+            if (date == DateTime.MinValue || date == DateTime.MaxValue)
+                return false;
+
+            return true;
+        }
+
         public static bool CheckPassword(string password)
         {
             if (password.Length < 8)
@@ -68,8 +77,6 @@ namespace DomainModel.Validation
             //if (!specialCharacters.Any(i => password.Contains(i)))
             //    return false;
             return true;
-
-
         }
     }
 }

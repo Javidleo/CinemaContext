@@ -31,12 +31,12 @@ namespace DomainModel.Domain
         private SalonActivity(int salonId,DateTime startDate,string startDatePersian,string description,Guid adminGuid,
                         string adminFullName) 
         {
-            this.SalonId = salonId;
-            this.StartDate = startDate;
-            this.StartDatePersian = startDatePersian;
-            this.Description = description;
-            this.AdminGuid = adminGuid;
-            this.AdminFullName = adminFullName;
+            SalonId = salonId;
+            StartDate = startDate;
+            StartDatePersian = startDatePersian;
+            Description = description;
+            AdminGuid = adminGuid;
+            AdminFullName = adminFullName;
 
         }
 
