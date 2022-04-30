@@ -28,7 +28,8 @@ namespace DomainModel.Domain
 
         ChairActivity() { }
 
-        private ChairActivity(int chairId, DateTime startDate, string startDatePersian,string description, Guid adminGuid, string adminFullName)
+        private ChairActivity(int chairId, DateTime startDate, string startDatePersian,string description, Guid adminGuid,
+                string adminFullName)
         {
             ChairId = chairId;
             StartDate = startDate;

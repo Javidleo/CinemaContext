@@ -26,7 +26,11 @@ namespace DataAccess.Repository
         public bool DoesExist(int id)
         => _context.Chair.Any(i => i.Id == id);
 
+        public bool DoesExist(List<int> chairIdList)
+        => chairIdList.All(i=> _context.Chair.Select(c=> c.Id).Contains(i));
+
         public Chair FindWithParents(int id)
         => _context.Chair.Include(i => i.Salon).ThenInclude(i => i.Cinema).FirstOrDefault(i => i.Id == id);
+
     }
 }
