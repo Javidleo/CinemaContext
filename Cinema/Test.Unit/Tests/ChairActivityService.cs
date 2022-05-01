@@ -50,7 +50,7 @@ namespace Test.Unit.Tests
                 throw new NotFoundException("admin not found");
 
             if (!_chairRepository.DoesExist(chairIdList))
-                throw new NotFoundException("invalid chairId");
+                throw new NotFoundException("chair not found");
 
             List<ChairActivity> chairActivityList = new();
             foreach(var id in chairIdList)

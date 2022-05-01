@@ -157,9 +157,14 @@ namespace Test.Unit.Tests
         public void DeactivateListOfChairs_CheckForExistingAllChairId_ThrowNotFoundException()
         {
             var activity = new ChairActivityBuilder().Build();
-            _chairIdList.Remove(2);
+            _adminFakeRepository.SetExistingGuid(activity.AdminGuid);
+            _chairFakeRepository.SetExistingIdList(_chairIdList);
+            var IdList = new List<int>() { 1, 2,3,4 };
 
-            void result()=> _service.Deactivate()
+            void result() => _service.Deactivate(IdList, activity.Description, activity.StartDate, activity.AdminGuid, activity.AdminFullName);
+
+            var exception= Assert.Throws<NotFoundException>(result);
+            exception.Message.Should().Be("chair not found");
         }
 
     }
