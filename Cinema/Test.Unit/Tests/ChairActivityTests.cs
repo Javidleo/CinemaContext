@@ -3,10 +3,6 @@ using FluentAssertions;
 using FluentValidation.TestHelper;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Test.Unit.builders;
 using Test.Unit.TestDoubles;
 using UseCases.Exceptions;
 using Xunit;
@@ -28,7 +24,7 @@ namespace Test.Unit.Tests
             _adminFakeRepository = new AdminFakeRepository();
             _chairActivityFakeRepository = new ChairActivityFakeRepository();
             _salonFakeRepository = new SalonFakeRepository();
-            _service = new ChairActivityService(_chairFakeRepository,_adminFakeRepository,_chairActivityFakeRepository,
+            _service = new ChairActivityService(_chairFakeRepository, _adminFakeRepository, _chairActivityFakeRepository,
                     _salonFakeRepository);
             _validator = new ChairActivityValidator();
             _chairIdList = new List<int>() { 1, 2, 3, 4, 5 };
@@ -47,10 +43,10 @@ namespace Test.Unit.Tests
         }
 
         [Theory]
-        [InlineData("","adminFullName is empty")]
+        [InlineData("", "adminFullName is empty")]
         [InlineData("admin134", "invalid adminFullName")]
         [InlineData("admin@52", "invalid adminFullName")]
-        public void ChairActivityValidator_CheckForAdminFullName_ThrowValidtaionException(string adminFullName,string exceptionMessage)
+        public void ChairActivityValidator_CheckForAdminFullName_ThrowValidtaionException(string adminFullName, string exceptionMessage)
         {
             var activity = new ChairActivityBuilder().WithAdminFullName(adminFullName).Build();
 
@@ -66,7 +62,7 @@ namespace Test.Unit.Tests
             var result = _validator.TestValidate(activity);
             result.ShouldHaveValidationErrorFor(i => i.AdminGuid).WithErrorMessage("adminGuid is empty");
         }
-        
+
         [Fact]
         public void ChairActivityValidator_CheckForStartDate_ThrowValidtaionException()
         {
@@ -77,19 +73,19 @@ namespace Test.Unit.Tests
         }
 
         [Theory]
-        [InlineData("","startDatePersian is empty")]
-        [InlineData("11/11/11","invalid startDatePersian")]
-        [InlineData("1111/1111/11","invalid startDatePersian")]
-        [InlineData("123123/11/11","invalid startDatePersian")]
-        [InlineData("11.11.11","invalid startDatePersian")]
-        [InlineData("11-123-3-1","invalid startDatePersian")]
+        [InlineData("", "startDatePersian is empty")]
+        [InlineData("11/11/11", "invalid startDatePersian")]
+        [InlineData("1111/1111/11", "invalid startDatePersian")]
+        [InlineData("123123/11/11", "invalid startDatePersian")]
+        [InlineData("11.11.11", "invalid startDatePersian")]
+        [InlineData("11-123-3-1", "invalid startDatePersian")]
         public void ChairActivityValidator_CheckForStartDatePersian_ThrowsValditaionException(string persianDate
-            ,string exceptionMessage)
+            , string exceptionMessage)
         {
             var activity = new ChairActivityBuilder().WithStartDatePersian(persianDate).Build();
 
             var result = _validator.TestValidate(activity);
-            result.ShouldHaveValidationErrorFor(i=> i.StartDatePersian).WithErrorMessage(exceptionMessage);
+            result.ShouldHaveValidationErrorFor(i => i.StartDatePersian).WithErrorMessage(exceptionMessage);
         }
 
         [Fact]
@@ -100,7 +96,7 @@ namespace Test.Unit.Tests
             void result() => _service.Deactivate(activity.ChairId, activity.Description, activity.StartDate
                 , activity.AdminGuid, activity.AdminFullName);
 
-            var exception =Assert.Throws<NotFoundException>(result);
+            var exception = Assert.Throws<NotFoundException>(result);
             exception.Message.Should().Be("chair not found");
         }
 
@@ -110,8 +106,8 @@ namespace Test.Unit.Tests
             var activity = new ChairActivityBuilder().Build();
             _chairFakeRepository.SetExistingId(activity.ChairId);
 
-            void result()=> _service.Deactivate(activity.ChairId,activity.Description,activity.StartDate
-                ,activity.AdminGuid, activity.AdminFullName);
+            void result() => _service.Deactivate(activity.ChairId, activity.Description, activity.StartDate
+                , activity.AdminGuid, activity.AdminFullName);
 
             var exception = Assert.Throws<NotFoundException>(result);
             exception.Message.Should().Be("admin not found");
@@ -129,7 +125,7 @@ namespace Test.Unit.Tests
 
             Assert.Throws<NotAcceptableException>(result);
         }
-        
+
         [Fact]
         public void DeactivateListOfChairs_CheckForWorkingWell()
         {
@@ -159,13 +155,24 @@ namespace Test.Unit.Tests
             var activity = new ChairActivityBuilder().Build();
             _adminFakeRepository.SetExistingGuid(activity.AdminGuid);
             _chairFakeRepository.SetExistingIdList(_chairIdList);
-            var IdList = new List<int>() { 1, 2,3,4 };
+            var IdList = new List<int>() { 1, 2, 3, 4 };
 
             void result() => _service.Deactivate(IdList, activity.Description, activity.StartDate, activity.AdminGuid, activity.AdminFullName);
 
-            var exception= Assert.Throws<NotFoundException>(result);
+            var exception = Assert.Throws<NotFoundException>(result);
             exception.Message.Should().Be("chair not found");
         }
 
+        [Fact]
+        public void DeactivateListOfChair_CheckCountOfPassedChairActiviesAndAddedChairActivities()
+        {
+            var activity = new ChairActivityBuilder().Build();
+            _adminFakeRepository.SetExistingGuid(activity.AdminGuid);
+            _chairFakeRepository.SetExistingIdList(_chairIdList);
+
+            var result = _service.Deactivate(_chairIdList, activity.Description, activity.StartDate, activity.AdminGuid, activity.AdminFullName);
+
+            _chairActivityFakeRepository.Storage.Count.Should().Be(_chairIdList.Count);
+        }
     }
 }
