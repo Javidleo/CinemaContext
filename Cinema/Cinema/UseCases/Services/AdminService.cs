@@ -1,5 +1,7 @@
 ﻿using DomainModel.Domain;
 using DomainModel.Validation;
+using FluentValidation;
+using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using UseCases.Exceptions;
@@ -30,7 +32,7 @@ namespace UseCases.Services
 
             Admin admin = Admin.Create(cinemaId, name, family, nationalCode, email, userName, password);
 
-            if (!_validator.Validate(admin).IsValid)
+            if (!_validator.Validate(admin, option => option.IncludeRuleSets("*")).IsValid)// * use all rulesets for validation
                 throw new NotAcceptableException("invalid input values");
 
             return Task.CompletedTask;
@@ -61,6 +63,34 @@ namespace UseCases.Services
 
                 return Task.FromResult(admin);
             }
+        }
+
+        public Task Modify(Guid adminGuid, string name, string family, string email, string userName)
+        {
+            var admin = _adminRepository.Find(adminGuid);
+            if (admin is null)
+                throw new NotFoundException("admin not found");
+
+            admin.Modify(name, family, email, userName);
+
+            if (!_validator.Validate(admin, options => options.IncludeRuleSets("Name", "UserName&Email")).IsValid)
+                throw new NotAcceptableException("invalid admin");
+
+            return Task.CompletedTask;
+        }
+
+        public Task ChangePasword(Guid adminGuid, string password)
+        {
+            var admin = _adminRepository.Find(adminGuid);
+            if (admin is null)
+                throw new NotFoundException("admin not found");
+
+            admin.ChangePassword(password);
+
+            if (!_validator.Validate(admin, option => option.IncludeRuleSets("Password")).IsValid)
+                throw new NotAcceptableException("week password");
+
+            return Task.CompletedTask;
         }
     }
 }

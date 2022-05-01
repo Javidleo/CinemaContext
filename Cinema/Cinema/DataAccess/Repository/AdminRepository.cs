@@ -17,6 +17,11 @@ namespace DataAccess.Repository
         public bool DoesExist(Guid adminGuid)
         => _context.Admin.Any(i => i.AdminGuid == adminGuid);
 
+        public Admin Find(int Id)
+        => _context.Admin.FirstOrDefault(i=> i.Id == Id);
+
+        public Admin Find(Guid guid)
+        => _context.Admin.FirstOrDefault(i => i.AdminGuid == guid);
         public Admin FindByEmail(string email)
         => _context.Admin.FirstOrDefault(i => i.Email == email);
 

@@ -7,6 +7,8 @@ namespace UseCases.RepositoryContract
     {
         bool DoesExist(int id);
         bool DoesExist(Guid adminGuid);
+        Admin Find(int Id);
+        Admin Find(Guid adminGuid);
         Admin FindByUserName(string userName);
         Admin FindByEmail(string email);
     }

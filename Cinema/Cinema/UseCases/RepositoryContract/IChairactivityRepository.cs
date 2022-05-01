@@ -1,7 +1,7 @@
 ﻿using DomainModel.Domain;
 using System.Collections.Generic;
 
-namespace Test.Unit.Tests
+namespace UseCases.RepositoryContract
 {
     public interface IChairactivityRepository
     {

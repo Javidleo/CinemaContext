@@ -6,8 +6,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UseCases.Exceptions;
 using UseCases.RepositoryContract;
+using UseCases.ServiceContract;
 
-namespace Test.Unit.Tests
+namespace UseCases.Services
 {
     public class ChairActivityService : IChairActivityService
     {
@@ -53,7 +54,7 @@ namespace Test.Unit.Tests
                 throw new NotFoundException("chair not found");
 
             List<ChairActivity> chairActivityList = new();
-            foreach(var id in chairIdList)
+            foreach (var id in chairIdList)
             {
                 var chairActivity = ChairActivity.Create(id, startDate, startDate.ToPersianDate(), description, adminGuid, adminFullName);
 

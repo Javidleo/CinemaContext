@@ -30,12 +30,12 @@ namespace Test.Unit.Tests
         [InlineData("", "name is empty")]
         [InlineData("Fds$%@", "invalid name")]
         [InlineData("%234sdf", "invalid name")]
-        public void AdminValidation_CheckForNameValidation_ThrowValidationException(string name, string exceptionMessage)
+        public void AdminValidation_CheckForNameRuleSetValidation_ThrowValidationException(string name, string exceptionMessage)
         {
             var admin = new AdminBuilder().WithName(name).Build();
 
-            var result = _validator.TestValidate(admin);
-            result.ShouldHaveValidationErrorFor(i => i.Name).WithErrorMessage(exceptionMessage);
+            var result = _validator.TestValidate(admin,option=> option.IncludeRuleSets("Name"));
+            result.ShouldHaveValidationErrorFor(i=> i.Name).WithErrorMessage(exceptionMessage);
         }
 
         [Theory]
@@ -45,7 +45,7 @@ namespace Test.Unit.Tests
         {
             var admin = new AdminBuilder().WithFamily(family).Build();
 
-            var result = _validator.TestValidate(admin);
+            var result = _validator.TestValidate(admin,option=> option.IncludeRuleSets("Name"));
             result.ShouldHaveValidationErrorFor(i => i.Family).WithErrorMessage(exceptionMessage);
         }
 
@@ -58,7 +58,7 @@ namespace Test.Unit.Tests
         {
             var admin = new AdminBuilder().WithNationalCode(nationalCode).Build();
 
-            var result = _validator.TestValidate(admin);
+            var result = _validator.TestValidate(admin,option=> option.IncludeRuleSets("NationalCode"));
             result.ShouldHaveValidationErrorFor(i => i.NationalCode).WithErrorMessage(exceptionMessage);
         }
 
@@ -72,7 +72,7 @@ namespace Test.Unit.Tests
         {
             var admin = new AdminBuilder().WithEmail(email).Build();
 
-            var result = _validator.TestValidate(admin);
+            var result = _validator.TestValidate(admin, option => option.IncludeRuleSets("UserName&Email"));
             result.ShouldHaveValidationErrorFor(i => i.Email).WithErrorMessage(exceptionMessage);
         }
 
@@ -85,7 +85,7 @@ namespace Test.Unit.Tests
         {
             var admin = new AdminBuilder().WithUserName(userName).Build();
 
-            var result = _validator.TestValidate(admin);
+            var result = _validator.TestValidate(admin, option => option.IncludeRuleSets("UserName&Email"));
             result.ShouldHaveValidationErrorFor(i => i.UserName).WithErrorMessage(exceptionMessage);
         }
 
@@ -99,7 +99,7 @@ namespace Test.Unit.Tests
         {
             var admin = new AdminBuilder().WithPassword(password).Build();
 
-            var result = _validator.TestValidate(admin);
+            var result = _validator.TestValidate(admin, option => option.IncludeRuleSets("Password"));
             result.ShouldHaveValidationErrorFor(i => i.Password).WithErrorMessage(exceptionMessage);
         }
 
@@ -123,6 +123,7 @@ namespace Test.Unit.Tests
             _cinemaFakeRepository.SetExistingId(admin.CinemaId);
 
             void result() => _adminService.Create(admin.CinemaId, admin.Name, admin.Family, admin.NationalCode, admin.Email, admin.UserName, admin.Password);
+
             Assert.Throws<NotAcceptableException>(result);
         }
 
@@ -205,6 +206,70 @@ namespace Test.Unit.Tests
 
             void result() => _adminService.Find(admin.UserName, admin.Password);
             Assert.Throws<NotFoundException>(result);
+        }
+
+        [Fact]
+        public void UpdateAdmin_CheckForWorkingWell()
+        {
+            var admin = new AdminBuilder().Build();
+            _adminFakeRepository.SetExistingId(admin.Id);
+
+            var result = _adminService.Modify(admin.Id, admin.Name, admin.Family, admin.Email, admin.UserName);
+
+            result.Status.ToString().Should().Be("RanToCompletion");
+        }
+
+        [Fact]
+        public void UpdateAdmin_CheckForInvalidAdminId()
+        {
+            var admin = new AdminBuilder().Build();
+
+            void result() => _adminService.Modify(admin.Id, admin.Name, admin.Family, admin.Email, admin.UserName);
+
+            Assert.Throws<NotFoundException>(result);
+        }
+
+        [Fact]
+        public void UpdateAdmin_CheckForValidation_ThrowNotAcceptableExcetpion()
+        {
+            var admin = new AdminBuilder().WithName("").Build();
+            _adminFakeRepository.SetExistingId(admin.Id);
+
+            void result() => _adminService.Modify(admin.Id, admin.Name, admin.Family, admin.Email, admin.UserName);
+
+            Assert.Throws<NotAcceptableException>(result);
+        }
+
+        [Fact]
+        public void ChangeAdminPassword_CheckForWorkingWell()
+        {
+            var admin = new AdminBuilder().Build();
+            _adminFakeRepository.SetExistingId(admin.Id);
+
+            var result = _adminService.ChangePasword(admin.Id, admin.Password);
+
+            result.Status.ToString().Should().Be("RanToCompletion");
+        }
+
+        [Fact]
+        public void ChangeAdminPassword_CheckForInvalidAdminid_ThrowNotFoundException()
+        {
+            var admin = new AdminBuilder().Build();
+
+            void result() => _adminService.ChangePasword(admin.Id, admin.Password);
+
+            Assert.Throws<NotFoundException>(result);
+        }
+
+        [Fact]
+        public void ChangeAdminPassword_CheckForValidation_ThrowNotAcceptableExcetpion()
+        {
+            var admin = new AdminBuilder().WithPassword("admin").Build();
+            _adminFakeRepository.SetExistingId(admin.Id);
+
+            void result() => _adminService.ChangePasword(admin.Id, admin.Password);
+
+            Assert.Throws<NotAcceptableException>(result);
         }
     }
 }

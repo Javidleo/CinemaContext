@@ -38,5 +38,16 @@ namespace DomainModel.Domain
 
         public static Admin Create(int cinemaId, string name, string family, string nationalCode, string email, string userName, string password)
         => new(cinemaId, name, family, nationalCode, email, userName, password);
+
+        public void Modify(string name, string family, string email, string userName)
+        {
+            Name = name;
+            Family = family;
+            Email = email;
+            UserName = userName;   
+        }
+
+        public void ChangePassword(string password)
+        => Password = password;
     }
 }

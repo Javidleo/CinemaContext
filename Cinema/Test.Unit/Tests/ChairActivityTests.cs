@@ -3,8 +3,10 @@ using FluentAssertions;
 using FluentValidation.TestHelper;
 using System;
 using System.Collections.Generic;
+using Test.Unit.builders;
 using Test.Unit.TestDoubles;
 using UseCases.Exceptions;
+using UseCases.Services;
 using Xunit;
 
 namespace Test.Unit.Tests

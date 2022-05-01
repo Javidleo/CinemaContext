@@ -2,7 +2,7 @@
 using NEGSO.Utilities;
 using System;
 
-namespace Test.Unit.Tests
+namespace Test.Unit.builders
 {
     internal class ChairActivityBuilder
     {
@@ -12,7 +12,7 @@ namespace Test.Unit.Tests
         private DateTime _startDate = DateTime.Now.Date;
         private string _startDatePersian = DateTime.Now.Date.ToPersianDate();
         private string _description = "descritpion";
-      
+
         public ChairActivityBuilder WithChairId(int chairId)
         {
             _chairId = chairId;
@@ -20,7 +20,7 @@ namespace Test.Unit.Tests
         }
         public ChairActivityBuilder WithAdminFullName(string adminFullName)
         {
-            this._adminFullName = adminFullName;
+            _adminFullName = adminFullName;
             return this;
         }
         public ChairActivityBuilder WithAdminGuid(Guid adminGuid)
