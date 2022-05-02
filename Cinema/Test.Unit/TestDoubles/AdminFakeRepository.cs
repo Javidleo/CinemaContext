@@ -8,7 +8,7 @@ namespace Test.Unit.TestDoubles
     internal class AdminFakeRepository : IAdminRepository
     {
         private int _existingid=-1; // we cannot to set Id for entities and entity id shoud be 0 as default so we pass -1
-        private Guid _existingGuid;
+        private Guid _existingGuid = Guid.NewGuid();
         private string? _existingEmail;
         private string? _existingUserName;
 
@@ -44,6 +44,12 @@ namespace Test.Unit.TestDoubles
         public Admin Find(int Id)
         {
             if (Id == _existingid) return new AdminBuilder().Build();
+            return null;
+        }
+
+        public Admin Find(Guid adminGuid)
+        {
+            if (adminGuid == _existingGuid) return new AdminBuilder().Build();
             return null;
         }
     }

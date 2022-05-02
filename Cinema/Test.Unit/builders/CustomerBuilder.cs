@@ -7,6 +7,7 @@ namespace Test.Unit.builders
         private string _name = "ali";
         private string _family = "reziae";
         private string _email = "javidleo.ef@gmail.com";
+        private string _password = "javidleo!451E1";
 
         public CustomerBuilder WithName(string name)
         {
@@ -23,8 +24,13 @@ namespace Test.Unit.builders
             _email = email;
             return this;
         }
+        public CustomerBuilder WithPassword(string password)
+        {
+            _password = password;
+            return this;
+        }
 
         public Customer Build()
-        => Customer.Create(_name, _family, _email);
+        => Customer.Create(_name, _family, _email,_password);
     }
 }

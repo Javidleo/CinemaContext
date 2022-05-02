@@ -20,6 +20,9 @@ namespace DataAccess.Repository
             _context.SaveChanges();
         }
 
+        public Customer Find(int Id)
+        => _context.Customer.FirstOrDefault(i=> i.Id == Id);
+
         public bool DoesExist(string email)
         => _context.Customer.Any(i => i.Email == email);
 

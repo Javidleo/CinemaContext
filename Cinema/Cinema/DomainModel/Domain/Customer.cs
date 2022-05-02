@@ -13,18 +13,31 @@ namespace DomainModel.Domain
 
         public string Email { get; private set; }
 
+        public string Password { get; private set; }
+
         public Guid CustomerGuid { get; private set; }
 
         public virtual List<Ticket> Tickets { get; private set; } = new List<Ticket>();
 
-        private Customer(string name, string family, string email)
+        private Customer(string name, string family, string email,string password)
         {
             Name = name;
             Family = family;
             Email = email;
+            Password = password;
         }
 
-        public static Customer Create(string name, string family, string email)
-        => new Customer(name, family, email);
+        public static Customer Create(string name, string family, string email,string password)
+        => new Customer(name, family, email,password);
+
+        public void Modify(string name, string family, string email)
+        {
+            Name =name;
+            Family =family;
+            Email =email;
+        }
+
+        public void ChangePassword(string password)
+        => Password = password;
     }
 }

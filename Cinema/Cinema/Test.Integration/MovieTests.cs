@@ -54,6 +54,8 @@ namespace Test.Integration
         [Fact]
         public void CreateCinema()
         {
+            var province = Province.Create("fars");
+
             var cinema = Cinema.Create("aftab", 20000, "new state west", 3);
             _context.Cinema.Add(cinema);
             _context.SaveChanges();
@@ -139,16 +141,16 @@ namespace Test.Integration
             result.Should().BeEquivalentTo(ticket);
         }
 
-        [Fact]
-        public void CreateCustomer()
-        {
-            var customer = Customer.Create("name", "family", "email");
-            _context.Customer.Add(customer);
-            _context.SaveChanges();
+        //[Fact]
+        //public void CreateCustomer()
+        //{
+        //    var customer = Customer.Create("name", "family", "email");
+        //    _context.Customer.Add(customer);
+        //    _context.SaveChanges();
 
-            var result = _context.Customer.First(i => i.Name == customer.Name);
-            result.Should().BeEquivalentTo(customer);
-        }
+        //    var result = _context.Customer.First(i => i.Name == customer.Name);
+        //    result.Should().BeEquivalentTo(customer);
+        //}
 
         [Fact]
         public void moviewithmovieactores()
