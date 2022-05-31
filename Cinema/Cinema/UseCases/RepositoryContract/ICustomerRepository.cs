@@ -1,11 +1,10 @@
 ﻿using DomainModel.Domain;
+using UseCases.RepositoryContract.Abstraction;
 
 namespace UseCases.RepositoryContract
 {
-    public interface ICustomerRepository
+    public interface ICustomerRepository:IBaseRepository<Customer>
     {
-        void Add(Customer customer);
-        Customer Find(int Id);
         bool DoesExist(string email);
         bool DoesExist(int? id);
     }

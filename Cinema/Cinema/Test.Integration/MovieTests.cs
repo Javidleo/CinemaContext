@@ -1,4 +1,4 @@
-﻿using DataAccess;
+﻿using DataAccess.Context;
 using DomainModel.Domain;
 using FluentAssertions;
 using System;
@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Test.Integration
 {
-    public class MovieTests 
+    public class MovieTests :PersistTest<CinemaContext>
     {
         private readonly CinemaContext _context;
         private readonly ContextOptionBuilderGenerator<CinemaContext> _generator;

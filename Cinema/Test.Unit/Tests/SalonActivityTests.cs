@@ -1,4 +1,5 @@
-﻿using DomainModel.Validation;
+﻿using DataAccess.Context;
+using DomainModel.Validation;
 using FluentAssertions;
 using FluentValidation.TestHelper;
 using System;
@@ -19,9 +20,10 @@ namespace Test.Unit.Tests
         private readonly SalonActivityValidator _validator;
         public SalonActivityTests()
         {
-            _salonFakeRepository = new SalonFakeRepository();
-            _salonActivityFakeRepository = new SalonActivityFakeRepository();
-            _adminFakeRepository = new AdminFakeRepository();
+            var cinemaContext = new CinemaContext();
+            _salonFakeRepository = new SalonFakeRepository(cinemaContext);
+            _salonActivityFakeRepository = new SalonActivityFakeRepository(cinemaContext);
+            _adminFakeRepository = new AdminFakeRepository(cinemaContext);
             _service = new SalonActivityService(_salonActivityFakeRepository, _salonFakeRepository, _adminFakeRepository);
             _validator = new SalonActivityValidator();
         }

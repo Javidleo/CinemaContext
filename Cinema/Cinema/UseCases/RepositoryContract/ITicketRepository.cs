@@ -1,12 +1,10 @@
 ﻿using DomainModel.Domain;
-using System.Collections.Generic;
+using UseCases.RepositoryContract.Abstraction;
 
 namespace UseCases.RepositoryContract
 {
-    public interface ITicketRepository
+    public interface ITicketRepository : IBaseRepository<Ticket>
     {
-        void Add(List<Ticket> ticketList);
-        void Add(Ticket ticket);
         bool DoesExist(int id);
     }
 }

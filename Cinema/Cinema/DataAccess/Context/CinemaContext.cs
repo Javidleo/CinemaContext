@@ -1,13 +1,20 @@
 ﻿using DataAccess.Mapping;
 using DomainModel.Domain;
 using Microsoft.EntityFrameworkCore;
+using System;
 
-namespace DataAccess
+namespace DataAccess.Context
 {
-    public class CinemaContext : DbContext
+    public class CinemaContext : DbContext, ICinemaContext
     {
         public CinemaContext() { }
         public CinemaContext(DbContextOptions<CinemaContext> option) : base(option) { }
+
+        public DbSet<TEntity> Set<TEntity>(Type type) where TEntity : class
+        => base.Set<TEntity>();
+
+        public override int SaveChanges()
+        => base.SaveChanges();
 
         public DbSet<Customer> Customer { get; set; }
         public DbSet<Ticket> Ticket { get; set; }
@@ -23,6 +30,8 @@ namespace DataAccess
         public DbSet<Sans> Sans { get; set; }
         public DbSet<City> City { get; set; }
         public DbSet<Province> Province { get; set; }
+
+       
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

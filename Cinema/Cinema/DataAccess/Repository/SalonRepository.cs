@@ -1,21 +1,17 @@
-﻿using DomainModel.Domain;
+﻿using DataAccess.Context;
+using DataAccess.Repository.Abstraction;
+using DomainModel.Domain;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using UseCases.RepositoryContract;
 
 namespace DataAccess.Repository
 {
-    public class SalonRepository : ISalonRepository
+    public class SalonRepository :BaseRepository<Salon>, ISalonRepository
     {
-        private readonly CinemaContext _context;
-        public SalonRepository()
-        => _context = new CinemaContext();
-
-        public void Add(Salon salon)
-        {
-            _context.Salon.Add(salon);
-            _context.SaveChanges();
-        }
+        private readonly ICinemaContext _context;
+        public SalonRepository(ICinemaContext context) : base(context)
+        => _context = context;
 
         public bool DoesExist(int Id)
         => _context.Salon.Any(i => i.Id == Id);

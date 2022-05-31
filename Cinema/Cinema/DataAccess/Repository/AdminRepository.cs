@@ -1,14 +1,16 @@
-﻿using DomainModel.Domain;
+﻿using DataAccess.Context;
+using DataAccess.Repository.Abstraction;
+using DomainModel.Domain;
 using System;
 using System.Linq;
 using UseCases.RepositoryContract;
 
 namespace DataAccess.Repository
 {
-    public class AdminRepository : IAdminRepository
+    public class AdminRepository : BaseRepository<Admin>, IAdminRepository
     {
-        private readonly CinemaContext _context;
-        public AdminRepository(CinemaContext context)
+        private readonly ICinemaContext _context;
+        public AdminRepository(ICinemaContext context) : base(context)
         => _context = context;
 
         public bool DoesExist(int id)
@@ -17,11 +19,9 @@ namespace DataAccess.Repository
         public bool DoesExist(Guid adminGuid)
         => _context.Admin.Any(i => i.AdminGuid == adminGuid);
 
-        public Admin Find(int Id)
-        => _context.Admin.FirstOrDefault(i=> i.Id == Id);
-
         public Admin Find(Guid guid)
         => _context.Admin.FirstOrDefault(i => i.AdminGuid == guid);
+
         public Admin FindByEmail(string email)
         => _context.Admin.FirstOrDefault(i => i.Email == email);
 

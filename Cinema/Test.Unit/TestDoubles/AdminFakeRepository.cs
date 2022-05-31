@@ -1,16 +1,23 @@
-﻿using DomainModel.Domain;
+﻿using DataAccess.Context;
+using DataAccess.Repository.Abstraction;
+using DomainModel.Domain;
 using System;
 using Test.Unit.builders;
 using UseCases.RepositoryContract;
 
 namespace Test.Unit.TestDoubles
 {
-    internal class AdminFakeRepository : IAdminRepository
+    internal class AdminFakeRepository :BaseRepository<Admin>, IAdminRepository
     {
+
         private int _existingid=-1; // we cannot to set Id for entities and entity id shoud be 0 as default so we pass -1
         private Guid _existingGuid = Guid.NewGuid();
         private string? _existingEmail;
         private string? _existingUserName;
+
+        public AdminFakeRepository(ICinemaContext context) : base(context)
+        {
+        }
 
         public void SetExistingId(int id) => _existingid = id;
         public void SetExistingGuid(Guid adminGuid)=> _existingGuid = adminGuid;
@@ -41,7 +48,7 @@ namespace Test.Unit.TestDoubles
             return null;
         }
 
-        public Admin Find(int Id)
+        public override Admin Find(int Id)
         {
             if (Id == _existingid) return new AdminBuilder().Build();
             return null;

@@ -1,15 +1,14 @@
 ﻿using DomainModel.Domain;
 using System;
 using System.Collections.Generic;
+using UseCases.RepositoryContract.Abstraction;
 
 namespace UseCases.RepositoryContract
 {
-    public interface IMovieSansSalonRepository
+    public interface IMovieSansSalonRepository : IBaseRepository<MovieSansSalon>
     {
-        void Add(MovieSansSalon obj);
         List<MovieSansSalon> FindOnScreenMovies(int movieId, int cityId, DateTime premiereDate);
         List<MovieSansSalon> FindOnScreenMovies(int movieId, int cityId);
-        List<MovieSansSalon> GetAll();
         bool DoesExist(int movieSansSalonId);
     }
 }

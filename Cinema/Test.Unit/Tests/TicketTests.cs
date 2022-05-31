@@ -1,4 +1,5 @@
-﻿using DomainModel.Domain;
+﻿using DataAccess.Context;
+using DomainModel.Domain;
 using FluentAssertions;
 using Moq;
 using System.Collections.Generic;
@@ -31,11 +32,12 @@ namespace Test.Unit.Tests
 
         public TicketTests()
         {
-            _ticketFakeRepository = new TicketFakeRepository();
-            _customerFakeRepository = new CustomerFakeRepository();
+            var cinemaContext = new  CinemaContext();
+            _ticketFakeRepository = new TicketFakeRepository(cinemaContext);
+            _customerFakeRepository = new CustomerFakeRepository(cinemaContext);
             _chairMockRepository = new Mock<IChairRepository>();
-            _movieSansSalonFakeRepository = new MovieSansSalonFakeRepository();
-            _cinemaFakeRepository = new CinemaFakeRepository();
+            _movieSansSalonFakeRepository = new MovieSansSalonFakeRepository(cinemaContext);
+            _cinemaFakeRepository = new CinemaFakeRepository(cinemaContext);
 
             _ticketService = new TicketService(_ticketFakeRepository, _chairMockRepository.Object, _customerFakeRepository, _movieSansSalonFakeRepository, _cinemaFakeRepository);
             // mock Setup
@@ -83,7 +85,8 @@ namespace Test.Unit.Tests
         [Fact]
         public void CreateTicket_CheckForInvalidCinemaId_ThrowNotFoundException()
         {
-            IChairRepository chairRepository = new ChairFakeRepository(); // create a fake instance of chair to avoid setup for cineamId
+            var cinemaContext = new CinemaContext();
+            IChairRepository chairRepository = new ChairFakeRepository(cinemaContext); // create a fake instance of chair to avoid setup for cineamId
             var ticket = new TicketBuilder().Build();// the general _ticket in constructor have values from mockChair so we build a new one
 
             var service = new TicketService(_ticketFakeRepository, chairRepository, _customerFakeRepository, _movieSansSalonFakeRepository, _cinemaFakeRepository);

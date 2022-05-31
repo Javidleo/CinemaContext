@@ -1,13 +1,11 @@
-﻿
-using DataAccess;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Test.Integration
 {
     public class ContextOptionBuilderGenerator<T> where T : DbContext
     {
         private string _connectionString = "Server=.;Database=Cinema;Trusted_Connection=True;";
-        
+
         public ContextOptionBuilderGenerator<T> WithConnectionString(string connectionString)
         {
             _connectionString = connectionString;

@@ -1,18 +1,22 @@
-﻿using DomainModel.Domain;
+﻿using DataAccess.Context;
+using DataAccess.Repository.Abstraction;
+using DomainModel.Domain;
 using Test.Unit.builders;
 using UseCases.RepositoryContract;
 
 namespace Test.Unit.TestDoubles
 {
-    internal class CustomerFakeRepository : ICustomerRepository
+    internal class CustomerFakeRepository : BaseRepository<Customer>, ICustomerRepository
     {
-        private int _existingId= -1;
+        private int _existingId = -1;
         private string? _existingEmail;
+
+        public CustomerFakeRepository(ICinemaContext context) : base(context) { }
 
         public void SetExistingId(int id) => _existingId = id;
         public void SetExistingEmail(string email) => _existingEmail = email;
 
-        public void Add(Customer customer) { }
+        public override void Add(Customer customer) { }
 
         public bool DoesExist(string email)
         {
@@ -26,7 +30,7 @@ namespace Test.Unit.TestDoubles
             return false;
         }
 
-        public Customer Find(int Id)
+        public override Customer Find(int Id)
         {
             if (Id == _existingId) return new CustomerBuilder().Build();
             return null;

@@ -1,4 +1,5 @@
-﻿using DomainModel.Validation;
+﻿using DataAccess.Context;
+using DomainModel.Validation;
 using FluentAssertions;
 using FluentValidation.TestHelper;
 using Test.Unit.builders;
@@ -19,8 +20,9 @@ namespace Test.Unit.Tests
 
         public AdminTests()
         {
-            _adminFakeRepository = new AdminFakeRepository();
-            _cinemaFakeRepository = new CinemaFakeRepository();
+            var cinemaContext = new CinemaContext();
+            _adminFakeRepository = new AdminFakeRepository(cinemaContext);
+            _cinemaFakeRepository = new CinemaFakeRepository(cinemaContext);
             _adminService = new AdminService(_adminFakeRepository, _cinemaFakeRepository);
             _validator = new AdminValidator();
         }

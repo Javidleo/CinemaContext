@@ -1,4 +1,5 @@
-﻿using DomainModel.Validation;
+﻿using DataAccess.Context;
+using DomainModel.Validation;
 using FluentAssertions;
 using FluentValidation.TestHelper;
 using Test.Unit.builders;
@@ -18,9 +19,10 @@ namespace Test.Unit.Tests
         private readonly SalonFakeRepository _salonFakeRepository;
         public SalonTests()
         {
+            var cinemaContext = new CinemaContext();
             _validator = new SalonValidator();
-            _cinemaFakeRepository = new CinemaFakeRepository();
-            _salonFakeRepository = new SalonFakeRepository();
+            _cinemaFakeRepository = new CinemaFakeRepository(cinemaContext);
+            _salonFakeRepository = new SalonFakeRepository(cinemaContext);
             _salonService = new SalonService(_cinemaFakeRepository, _salonFakeRepository);
         }
 
@@ -69,12 +71,12 @@ namespace Test.Unit.Tests
         }
 
         [Theory]
-        [InlineData("",50)]
-        [InlineData("name",0)]
-        [InlineData("name",4)]
-        [InlineData("name",5000)]
-        [InlineData("%sname",5000)]
-        public void CreateSalon_CheckForSalonValidation_ThrowNotAcceptableException(string name,int capacity)
+        [InlineData("", 50)]
+        [InlineData("name", 0)]
+        [InlineData("name", 4)]
+        [InlineData("name", 5000)]
+        [InlineData("%sname", 5000)]
+        public void CreateSalon_CheckForSalonValidation_ThrowNotAcceptableException(string name, int capacity)
         {
             var salon = new SalonBuilder().WithName(name).WithCapacity(capacity).Build();
             _cinemaFakeRepository.SetExistingId(salon.CinemaId);

@@ -1,9 +1,9 @@
 ﻿using DomainModel.Domain;
+using UseCases.RepositoryContract.Abstraction;
 
 namespace UseCases.RepositoryContract
 {
-    public interface ICinemaActivityRepository
+    public interface ICinemaActivityRepository : IBaseRepository<CinemaActivity>
     {
-        void Add(CinemaActivity cinemaActivity);
     }
 }

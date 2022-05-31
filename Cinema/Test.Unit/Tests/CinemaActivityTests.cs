@@ -1,4 +1,5 @@
-﻿using DomainModel.Validation;
+﻿using DataAccess.Context;
+using DomainModel.Validation;
 using FluentAssertions;
 using FluentValidation.TestHelper;
 using System;
@@ -19,9 +20,10 @@ namespace Test.Unit.Tests
         private readonly CinemaActivityFakeRepository _cinemaActivityFakeRepository;
         public CinemaActivityTests()
         {
-            _cinemaFakeRepository = new CinemaFakeRepository();
-            _cinemaActivityFakeRepository = new CinemaActivityFakeRepository();
-            _adminFakeRepository = new AdminFakeRepository();
+            var cinemaContext = new CinemaContext();
+            _cinemaFakeRepository = new CinemaFakeRepository(cinemaContext);
+            _cinemaActivityFakeRepository = new CinemaActivityFakeRepository(cinemaContext);
+            _adminFakeRepository = new AdminFakeRepository(cinemaContext);
             _service = new CinemaActivityService(_cinemaFakeRepository, _cinemaActivityFakeRepository, _adminFakeRepository);
 
             _validator = new CinemaActivityValidator();
@@ -86,7 +88,7 @@ namespace Test.Unit.Tests
             _cinemaFakeRepository.SetExistingId(cinemaActivity.CinemaId);
             _adminFakeRepository.SetExistingGuid(cinemaActivity.AdminGuid);
 
-            var result = _service.Deactivate(cinemaActivity.CinemaId, cinemaActivity.Description,cinemaActivity.StartDate, cinemaActivity.AdminGuid, cinemaActivity.AdminFullName);
+            var result = _service.Deactivate(cinemaActivity.CinemaId, cinemaActivity.Description, cinemaActivity.StartDate, cinemaActivity.AdminGuid, cinemaActivity.AdminFullName);
 
             result.Status.ToString().Should().Be("RanToCompletion");
         }

@@ -1,4 +1,5 @@
-﻿using DomainModel.Domain;
+﻿using DataAccess.Context;
+using DomainModel.Domain;
 using DomainModel.Validation;
 using FluentAssertions;
 using FluentValidation.TestHelper;
@@ -19,7 +20,8 @@ namespace Test.Unit.Tests
         private readonly CustomerFakeRepository _customerFakeRepository;
         public CustomerTests()
         {
-            _customerFakeRepository = new CustomerFakeRepository();
+            var cinemaContext = new CinemaContext();
+            _customerFakeRepository = new CustomerFakeRepository(cinemaContext);
             _service = new CustomerService(_customerFakeRepository);
             _validator = new CustomerValidator();
             _customer = new CustomerBuilder().Build();

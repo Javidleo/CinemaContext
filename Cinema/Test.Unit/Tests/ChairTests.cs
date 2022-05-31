@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using DataAccess.Context;
+using FluentAssertions;
 using System.Linq;
 using Test.Unit.builders;
 using Test.Unit.TestDoubles;
@@ -16,8 +17,9 @@ namespace Test.Unit.Tests
 
         public ChairTests()
         {
-            _chairFakeRepository = new ChairFakeRepository();
-            _salonFakeRepository = new SalonFakeRepository();
+            var cinemaContext = new CinemaContext();
+            _chairFakeRepository = new ChairFakeRepository(cinemaContext);
+            _salonFakeRepository = new SalonFakeRepository(cinemaContext);
             _chairService = new ChairService(_chairFakeRepository, _salonFakeRepository);
         }
 

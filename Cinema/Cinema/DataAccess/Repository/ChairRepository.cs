@@ -1,4 +1,6 @@
-﻿using DomainModel.Domain;
+﻿using DataAccess.Context;
+using DataAccess.Repository.Abstraction;
+using DomainModel.Domain;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,18 +9,11 @@ using UseCases.RepositoryContract;
 namespace DataAccess.Repository
 {
 
-    public class ChairRepository : IChairRepository
+    public class ChairRepository :BaseRepository<Chair>, IChairRepository
     {
-        private readonly CinemaContext _context;
-
-        public ChairRepository(CinemaContext context)
+        private readonly ICinemaContext _context;
+        public ChairRepository(ICinemaContext context) : base(context)
         => _context = context;
-
-        public void Add(List<Chair> chairs)
-        {
-            _context.Chair.AddRange(chairs);
-            _context.SaveChanges();
-        }
 
         public List<Chair> FindBySalon(int salonId)
         => _context.Chair.Include(i => i.Salon).Where(i => i.SalonId == salonId && i.InUse == false).ToList();

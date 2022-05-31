@@ -1,4 +1,5 @@
-﻿using DomainModel.Validation;
+﻿using DataAccess.Context;
+using DomainModel.Validation;
 using FluentAssertions;
 using FluentValidation.TestHelper;
 using System;
@@ -22,10 +23,11 @@ namespace Test.Unit.Tests
         private List<int> _chairIdList;
         public ChairActivityTests()
         {
-            _chairFakeRepository = new ChairFakeRepository();
-            _adminFakeRepository = new AdminFakeRepository();
-            _chairActivityFakeRepository = new ChairActivityFakeRepository();
-            _salonFakeRepository = new SalonFakeRepository();
+            var cinemaContext = new CinemaContext();
+            _chairFakeRepository = new ChairFakeRepository(cinemaContext);
+            _adminFakeRepository = new AdminFakeRepository(cinemaContext);
+            _chairActivityFakeRepository = new ChairActivityFakeRepository(cinemaContext);
+            _salonFakeRepository = new SalonFakeRepository(cinemaContext);
             _service = new ChairActivityService(_chairFakeRepository, _adminFakeRepository, _chairActivityFakeRepository,
                     _salonFakeRepository);
             _validator = new ChairActivityValidator();

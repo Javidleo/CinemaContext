@@ -1,11 +1,9 @@
 ﻿using DomainModel.Domain;
-using System.Collections.Generic;
+using UseCases.RepositoryContract.Abstraction;
 
 namespace UseCases.RepositoryContract
 {
-    public interface IChairactivityRepository
+    public interface IChairactivityRepository : IBaseRepository<ChairActivity>
     {
-        void Add(ChairActivity chairActivity);
-        void Add(List<ChairActivity> chairActivityList);
     }
 }

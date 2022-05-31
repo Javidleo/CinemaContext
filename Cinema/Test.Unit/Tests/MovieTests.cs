@@ -1,4 +1,5 @@
-﻿using DomainModel.Validation;
+﻿using DataAccess.Context;
+using DomainModel.Validation;
 using FluentAssertions;
 using FluentValidation.TestHelper;
 using System;
@@ -18,7 +19,8 @@ namespace Test.Unit.Tests
         private readonly MovieFakeRepository _movieFakeRepository;
         public MovieTests()
         {
-            _movieFakeRepository = new MovieFakeRepository();
+            var cinemaContext = new CinemaContext();
+            _movieFakeRepository = new MovieFakeRepository(cinemaContext);
             _movieService = new MovieService(_movieFakeRepository);
             _validator = new MovieValidator();
         }

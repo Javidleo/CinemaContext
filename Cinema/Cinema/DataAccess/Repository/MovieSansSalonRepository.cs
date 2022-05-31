@@ -1,4 +1,6 @@
-﻿using DomainModel.Domain;
+﻿using DataAccess.Context;
+using DataAccess.Repository.Abstraction;
+using DomainModel.Domain;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,18 +9,12 @@ using UseCases.RepositoryContract;
 
 namespace DataAccess.Repository
 {
-    public class MovieSansSalonRepository : IMovieSansSalonRepository
+    public class MovieSansSalonRepository :BaseRepository<MovieSansSalon>, IMovieSansSalonRepository
     {
-        private readonly CinemaContext _context;
-        public MovieSansSalonRepository()
-        => _context = new CinemaContext();
+        private readonly ICinemaContext _context;
+        public MovieSansSalonRepository(ICinemaContext context) : base(context)
+        => _context = context;
 
-        public void Add(MovieSansSalon obj)
-        {
-            _context.MovieSansSalon.Add(obj);
-            _context.SaveChanges();
-        }
-        
         public List<MovieSansSalon> FindOnScreenMovies(int movieId, int cityId, DateTime premiereDate)
         => _context.MovieSansSalon
                 .Include(i => i.Salon).ThenInclude(i => i.Cinema).ThenInclude(i => i.City)
@@ -30,8 +26,5 @@ namespace DataAccess.Repository
                             .Where(i => i.MovieId == movieId && i.Salon.Cinema.City.Id == cityId).ToList();
         public bool DoesExist(int Id)
         => _context.MovieSansSalon.Any(i => i.Id == Id);
-
-        public List<MovieSansSalon> GetAll()
-        => _context.MovieSansSalon.Include(i => i.Salon).ThenInclude(i => i.Cinema).ThenInclude(i => i.City).Include(i=> i.Sans).ToList();
     }
 }

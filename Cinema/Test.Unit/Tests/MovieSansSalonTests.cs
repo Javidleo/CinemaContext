@@ -1,4 +1,5 @@
-﻿using DomainModel.Domain;
+﻿using DataAccess.Context;
+using DomainModel.Domain;
 using DomainModel.Validation;
 using FluentAssertions;
 using FluentValidation.TestHelper;
@@ -25,10 +26,11 @@ namespace Test.Unit.Tests
         private MovieSansSalon _movieSansSalon;
         public MovieSansSalonTests()
         {
-            _movieFakeRepository = new MovieFakeRepository();
+            var cinemaContext = new CinemaContext();
+            _movieFakeRepository = new MovieFakeRepository(cinemaContext);
             _salonMockRepository = new Mock<ISalonRepository>();
-            _sansFakeRepository = new SnasFakeRepository();
-            _movieSansSalonFakeRepository = new MovieSansSalonFakeRepository();
+            _sansFakeRepository = new SnasFakeRepository(cinemaContext);
+            _movieSansSalonFakeRepository = new MovieSansSalonFakeRepository(cinemaContext);
             _service = new MovieSansSalonService(_movieFakeRepository, _salonMockRepository.Object, _sansFakeRepository, _movieSansSalonFakeRepository);
             _validator = new MovieSansSalonValidator();
             _movieSansSalon = new MovieSansSalonBuilder().Build();
